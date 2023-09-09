@@ -17,14 +17,13 @@
 	<script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
 </head>
 <body>
-
     <nav class="navbar navbar-expand-sm bg-light navbar-light fixed-top pt-3 d-flex">
         <div class="container-fluid justify-content-center " >
             <div><i class="fa-solid fa-house-user"></i></div>
             <div class="collapse navbar-collapse" id="mynavbar">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="<?=url_base?>home">Home</a>
+                        <a class="nav-link" href="<?=url_base?>user/management">Home</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav d-flex">
@@ -32,7 +31,7 @@
                         <a class="nav-link" href="<?=url_base?>login">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?=url_base?>register">Register</a>
+                        <a class="nav-link" href="<?=url_base?>user/register">Register</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="<?=url_base?>logout">Logout</a>
