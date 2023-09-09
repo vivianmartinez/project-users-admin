@@ -83,8 +83,10 @@ class UserModel{
 
     static public function getUsers(){
         $connection = Connection::connect();
-        $sql = "SELECT * FROM users";
+        $sql = "SELECT * FROM registros";
         $stmt = $connection->prepare($sql);
-        var_dump($stmt->execute());
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_CLASS);
+        $stmt = null;
     }
 }

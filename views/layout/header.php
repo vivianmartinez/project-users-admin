@@ -24,18 +24,18 @@
             <div class="collapse navbar-collapse" id="mynavbar">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link  active" href="#">Home</a>
+                        <a class="nav-link" href="<?=url_base?>home">Home</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav d-flex">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Login</a>
+                        <a class="nav-link" href="<?=url_base?>login">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Register</a>
+                        <a class="nav-link" href="<?=url_base?>register">Register</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Logout</a>
+                        <a class="nav-link" href="<?=url_base?>logout">Logout</a>
                     </li>
                 </ul>
             </div>
