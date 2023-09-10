@@ -1,3 +1,13 @@
-.image-user img{
-    width: 100px;
+svg.svg-inline--fa.fa-house-user {
+    font-size: 20px;
+}
+svg.svg-inline--fa {
+    filter: invert(75%) sepia(71%) saturate(3097%) hue-rotate(129deg) brightness(94%) contrast(87%);
+}
+.navbar-nav li a:hover{
+    color: #11c9c7;
+}
+button.btn.btn-custom{
+    background-color: #11c9c7;
+    color: white;
 }

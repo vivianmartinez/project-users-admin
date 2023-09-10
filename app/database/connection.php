@@ -16,13 +16,13 @@ class Connection{
     }
 
     static public function connect(){
-            $connection = new self();
-            try{
-                $link = new PDO("mysql:host=$connection->host;dbname=$connection->dbName",$connection->dbUser,$connection->dbPassword);
-                $link->exec("set names utf8");
-            }catch(Exception $e){
-                exit("Error".$e->getMessage());
-            }
-            return $link;
+        $connection = new self();
+        try{
+            $link = new PDO("mysql:host=$connection->host;dbname=$connection->dbName",$connection->dbUser,$connection->dbPassword);
+            $link->exec("set names utf8");
+        }catch(Exception $e){
+            exit("Error".$e->getMessage());
+        }
+        return $link;
     }
 }

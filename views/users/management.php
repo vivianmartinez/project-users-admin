@@ -1,8 +1,9 @@
     <div class="container" style="margin-top: 100px;">
       <h2>All users</h2>        
-      <table class="table table-dark table-hover">
+      <table class="table table-dark table-hover align-middle">
         <thead>
           <tr>
+            <th>User</th>
             <th>User</th>
             <th>Email</th>
             <th>Capabilities</th>
@@ -13,13 +14,19 @@
         <tbody>
           <?php foreach($users as $user): ?>
           <tr>
-            <td><?=$user->nombre  ?></td>
-            <td><?=$user->correo  ?></td>
-            <td><?=$user->permisos?></td>
-            <td><?=$user->fecha   ?></td>
             <td>
-              <a href="#" class="btn btn-info"><i class="fa-solid fa-user-pen"></i></a>
-              <a href="#" class="btn btn-danger"><i class="fa-solid fa-user-xmark"></i></a>
+              <div>
+                <img src="<?=url_base?>storage/images/<?=$user->image?>" class="rounded img-fluid img-thumbnail" 
+                alt="<?=$user->image?>" width="50px">
+              </div>
+            </td>
+            <td><?=$user->user_name   ?></td>
+            <td><?=$user->email       ?></td>
+            <td><?=$user->capabilities?></td>
+            <td><?=$user->created_at  ?></td>
+            <td>
+              <a href="#" class="btn btn-info"><i class="fa-solid fa-user-pen "></i></a>
+              <a href="#" class="btn btn-danger"><i class="fa-solid fa-user-xmark "></i></a>
             </td>
           </tr>
          <?php endforeach; ?>
