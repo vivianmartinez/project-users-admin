@@ -129,7 +129,6 @@ class UserModel{
     public function saveUser(){
 
         try{
-
             $sql = 'INSERT INTO users (user_name,email,password,image,created_at) VALUES(:user_name,:email,:password,:image,CURDATE())';
             $connection = Connection::connect();
             $stmt = $connection->prepare($sql);
@@ -144,7 +143,7 @@ class UserModel{
             $stmt->execute();
 
         }catch(exception $er){
-            return $er->getMessage();
+            return ['error' => true, 'message' => $er->getMessage()];
         }
         return $stmt;
     }

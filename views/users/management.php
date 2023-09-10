@@ -1,3 +1,9 @@
+    <?php
+      if(isset($_SESSION['register_success'])){
+        echo '<div class="alert alert-success">'.$_SESSION['register_success'].'</div>';
+        print_r($_SESSION['user']);
+      }
+    ?>
     <div class="container" style="margin-top: 100px;">
       <h2>All users</h2>        
       <table class="table table-dark table-hover align-middle">
@@ -25,8 +31,8 @@
             <td><?=$user->capabilities?></td>
             <td><?=$user->created_at  ?></td>
             <td>
-              <a href="#" class="btn btn-info"><i class="fa-solid fa-user-pen "></i></a>
-              <a href="#" class="btn btn-danger"><i class="fa-solid fa-user-xmark "></i></a>
+              <a href="#" class="btn btn-info"><i class="fa-solid fa-user-pen white"></i></a>
+              <a href="#" class="btn btn-danger"><i class="fa-solid fa-user-xmark white"></i></a>
             </td>
           </tr>
          <?php endforeach; ?>

@@ -1,5 +1,5 @@
 
-<div class="container-fluid mt-5 py-5">
+<div class="container-fluid mt-5 py-5 mb-5" style="height: 100vh;">
 
     <div class="container py-5 col-4">
         <form action="<?=url_base?>user/save" method="POST" enctype="multipart/form-data">
@@ -23,4 +23,15 @@
             <button type="submit" class="btn btn-custom">Submit</button>
         </form>
     </div>
+    <?php
+    if(isset($_SESSION['error'])): ?>
+    <div class="container col-4">
+    <?php foreach($_SESSION['error'] as $error => $message): ?>
+            <div class="alert alert-danger"><strong>¡Error <?=$error?>!</strong> <?=$message?></div>
+    <?php endforeach; ?>
+    </div>
+    <?php
+        ResetSession::deleteSession('error');
+    endif;
+    ?>
 </div>

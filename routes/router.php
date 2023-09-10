@@ -1,9 +1,13 @@
 <?php
+session_start();
 
 require_once 'app/config/config-url.php';
 require_once 'app/models/usermodel.php';
 require_once 'app/database/connection.php';
 require_once 'views/layouts/header.php';
+require_once 'app/helpers/reset-session.php';
+require_once 'app/helpers/check-role.php';
+
 
 $controller         =  new LoginController();
 $parameter_method   = 'index';
