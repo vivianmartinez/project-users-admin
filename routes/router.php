@@ -7,6 +7,9 @@ require_once 'app/database/connection.php';
 require_once 'views/layouts/header.php';
 require_once 'app/helpers/reset-session.php';
 require_once 'app/helpers/check-role.php';
+require_once 'app/helpers/display-error.php';
+require_once 'app/helpers/redirect-route.php';
+require_once 'app/helpers/check-login-status.php';
 
 
 $controller         =  new LoginController();
@@ -25,7 +28,7 @@ if(isset($_GET['controller']) && !empty($_GET['controller'])){
         $controller = new PageNotFoundController();
     }
 }
-//print_r($_GET);
+print_r($_GET);
 $controller->$parameter_method();
 
 require_once 'views/layouts/footer.php';

@@ -6,7 +6,7 @@ class UserController{
       include 'views/users/register.php';
    }
 
-   public function save(){
+   public function signUp(){
       $error = [];
       if(isset($_POST)){
          $name     = isset($_POST['register_name']) ? $_POST['register_name'] : false;
@@ -26,7 +26,6 @@ class UserController{
          
          if( empty($error)){
             $name_file = 'avatar.png';
-
             if(is_dir('storage/images')){
                if($picture){
                   if(   $_FILES['register_image']['type'] == 'image/jpeg' 
@@ -44,24 +43,23 @@ class UserController{
             $user->setUserName($name);
             $user->setEmail($email);
             $user->setPassword($password_hash);
-            //$user->setImage($name_file);
+            $user->setImage($name_file);
             $response = $user->saveUser();
 
             if(!$response['error']){
                $_SESSION['register_success'] = '¡The user has been created succesfully!';
-               $_SESSION['user']     = ['name'=>$name,'email'=>$email,'password'=>$password,'picture'=>$name_file];
-              
+               $_SESSION['user'] = ['name'=>$name,'email'=>$email,'password'=>$password,'picture'=>$name_file];
             }else{
-               $_SESSION['error']    = ['Something bad happened, try again please.'];
+               $_SESSION['register_error']= ['Something bad happened, try again please.'];
             }
          }else{
-            $_SESSION['error']    =  $error;
+            $_SESSION['register_error'] =  $error;
          }
       }
-      if(isset($_SESSION['error'])){
-         header("location:".url_base.'/user/register');
+      if(isset($_SESSION['register_error'])){
+         RedirectRoute::redirect('user/register');
       }else{
-         header("location:".url_base.'/user/management');
+         RedirectRoute::redirect('user/management');
       }
    }
 

@@ -9,6 +9,12 @@ class UserModel{
     private $image;
     private $capabilities;
     private $created_at;
+    private $connection;
+
+    private function __construct()
+    {
+        $this->connection = Connection::connect();
+    }
 
     /**
         * Get the value of user_name
@@ -116,18 +122,33 @@ class UserModel{
 
         return $this;
     }
+    static public function getUser($column,$value){
+        $connectDb = new self();
+        $sql = "SELECT * FROM users WHERE $column = :$column";
+        $stmt = $connectDb->connection->prepare($sql);
+        if(is_int($value)){
+            $stmt->bindParam(':'.$column,$value,PDO::PARAM_INT);
+        }else{
+            $stmt->bindParam(':'.$column,$value,PDO::PARAM_STR);
+        }
+        $stmt->execute();
+        $response = $stmt->fetchAll(PDO::FETCH_CLASS);
+        
+        $stmt = null;
+        return $response;
+    }
 
     static public function getUsers(){
-        $connection = Connection::connect();
+        $connectDb = new self();
         $sql = "SELECT * FROM users";
-        $stmt = $connection->prepare($sql);
+        $stmt = $connectDb->connection->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_CLASS);
+        
         $stmt = null;
     }
 
     public function saveUser(){
-
         try{
             $sql = 'INSERT INTO users (user_name,email,password,image,created_at) VALUES(:user_name,:email,:password,:image,CURDATE())';
             $connection = Connection::connect();
@@ -146,6 +167,8 @@ class UserModel{
             return ['error' => true, 'message' => $er->getMessage()];
         }
         return $stmt;
+        
+        $stmt = null;
     }
 
 }

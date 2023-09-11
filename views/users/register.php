@@ -2,7 +2,7 @@
 <div class="container-fluid mt-5 py-5 mb-5" style="height: 100vh;">
 
     <div class="container py-5 col-4">
-        <form action="<?=url_base?>user/save" method="POST" enctype="multipart/form-data">
+        <form action="<?=url_base?>user/signup" method="POST" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="register_name" class="form-label">Name</label>
                 <input type="text" class="form-control" id="register_name" name="register_name">
@@ -20,18 +20,13 @@
                 <label for="register_image" class="form-label align-bottom"><span class="btn btn-light"><i class="fa-solid fa-upload"></i> Upload image</span></label>
                 <input type="file" class="d-none" id="register_image" name="register_image">
             </div>
-            <button type="submit" class="btn btn-custom">Submit</button>
+            <button type="submit" class="btn btn-custom">Sign Up</button>
         </form>
     </div>
     <?php
-    if(isset($_SESSION['error'])): ?>
-    <div class="container col-4">
-    <?php foreach($_SESSION['error'] as $error => $message): ?>
-            <div class="alert alert-danger"><strong>¡Error <?=$error?>!</strong> <?=$message?></div>
-    <?php endforeach; ?>
-    </div>
-    <?php
-        ResetSession::deleteSession('error');
+    if(isset($_SESSION['register_error'])):
+        DisplayError::displayErrors('register_error');
+        ResetSession::deleteSession('register_error');
     endif;
     ?>
 </div>

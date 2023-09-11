@@ -34,7 +34,7 @@
                         <a class="nav-link" href="<?=url_base?>user/register">Register</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?=url_base?>logout">Logout</a>
+                        <a class="nav-link" href="<?=url_base?>login/signout">Logout</a>
                     </li>
                 </ul>
             </div>
