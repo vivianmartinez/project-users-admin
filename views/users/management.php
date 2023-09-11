@@ -1,7 +1,6 @@
 <?php
   if(isset($_SESSION['register_success'])){
     echo '<div class="alert alert-success">'.$_SESSION['register_success'].'</div>';
-    print_r($_SESSION['user']);
   }
   $logged_in = CheckLoginStatus::isLoggedIn();
   if($logged_in):
@@ -11,7 +10,7 @@
     <table class="table table-dark table-hover align-middle">
       <thead>
         <tr>
-          <th>User</th>
+          <th></th>
           <th>User</th>
           <th>Email</th>
           <th>Capabilities</th>
@@ -41,4 +40,7 @@
       </tbody>
     </table>
   </div>
-<?php endif; ?>
+<?php 
+else: 
+  RedirectRoute::redirect('login');
+endif; ?>

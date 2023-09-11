@@ -3,8 +3,9 @@
 class CheckLoginStatus{
 
     static public function isLoggedIn(){
-        if(isset($_SESSION['logged_user'])) return true;
-        RedirectRoute::redirect('login');
+        if(isset($_SESSION['user_logged'])){
+            return true;
+        }
         return false;
     }
 }

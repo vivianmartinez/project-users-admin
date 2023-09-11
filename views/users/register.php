@@ -1,6 +1,6 @@
-
+<?php $isLogged = CheckLoginStatus::isLoggedIn(); ?>
+<?php if(!$isLogged): ?>
 <div class="container-fluid mt-5 py-5 mb-5" style="height: 100vh;">
-
     <div class="container py-5 col-4">
         <form action="<?=url_base?>user/signup" method="POST" enctype="multipart/form-data">
             <div class="mb-3">
@@ -30,3 +30,8 @@
     endif;
     ?>
 </div>
+<?php else: ?>
+    <div class="text-info d-flex justify-content-center align-items-center" style="height: 600px;">
+        <strong>You are already registered...</strong>
+    </div>
+<?php endif; ?>

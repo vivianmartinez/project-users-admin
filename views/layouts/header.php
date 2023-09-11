@@ -17,6 +17,12 @@
 	<script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
 </head>
 <body>
+    <?php 
+        $isLogged = false;
+    if(isset($_SESSION['user_logged'])):
+        $isLogged = true;
+    endif;    
+    ?>
     <nav class="navbar navbar-expand-sm bg-light navbar-light fixed-top pt-3 d-flex">
         <div class="container-fluid justify-content-center " >
             <div><i class="fa-solid fa-house-user"></i></div>
@@ -27,15 +33,19 @@
                     </li>
                 </ul>
                 <ul class="navbar-nav d-flex">
+                    <?php if(!$isLogged):?>
                     <li class="nav-item">
                         <a class="nav-link" href="<?=url_base?>login">Login</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="<?=url_base?>user/register">Register</a>
                     </li>
+                    <?php endif; ?>
+                    <?php if($isLogged):?>
                     <li class="nav-item">
                         <a class="nav-link" href="<?=url_base?>login/signout">Logout</a>
                     </li>
+                    <?php endif; ?>
                 </ul>
             </div>
         </div>

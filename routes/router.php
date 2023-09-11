@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+
 require_once 'app/config/config-url.php';
 require_once 'app/models/usermodel.php';
 require_once 'app/database/connection.php';
@@ -28,7 +29,7 @@ if(isset($_GET['controller']) && !empty($_GET['controller'])){
         $controller = new PageNotFoundController();
     }
 }
-print_r($_GET);
+//print_r($_GET);
 $controller->$parameter_method();
 
 require_once 'views/layouts/footer.php';

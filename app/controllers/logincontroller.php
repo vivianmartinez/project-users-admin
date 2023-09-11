@@ -39,14 +39,16 @@ class LoginController{
                 $_SESSION['login_error'] = $error;  
            }
         }
-        if(isset($_SESSION['login_error'])) RedirectRoute::redirect('login');
+        if(isset($_SESSION['login_error']) && !empty($_SESSION['login_error'])){
+            RedirectRoute::redirect('login');
+        } 
     }
 
     public function signOut(){
         if(isset($_SESSION['user_logged'])){
             ResetSession::deleteSession('user_logged');
             session_destroy();
-        }
-        RedirectRoute::redirect('login');
+            RedirectRoute::redirect('login');
+        }   
     }
 }

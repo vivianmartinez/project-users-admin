@@ -56,7 +56,7 @@ class UserController{
             $_SESSION['register_error'] =  $error;
          }
       }
-      if(isset($_SESSION['register_error'])){
+      if(isset($_SESSION['register_error']) && !empty($_SESSION['register_error'])){
          RedirectRoute::redirect('user/register');
       }else{
          RedirectRoute::redirect('user/management');
