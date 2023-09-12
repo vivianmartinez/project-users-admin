@@ -45,12 +45,17 @@ class UserController{
             $user->setPassword($password_hash);
             $user->setImage($name_file);
             $response = $user->saveUser();
-
-            if(!$response['error']){
+            print_r($response);
+           
+            if(! is_array($response) && $response){
                $_SESSION['register_success'] = '¡The user has been created succesfully!';
-               $_SESSION['user'] = ['name'=>$name,'email'=>$email,'password'=>$password,'picture'=>$name_file];
+               $search_user = UserModel::getUser('email',$email);
+               if(!empty($search_user)){
+                  $_SESSION['user_logged'] = $search_user[0];
+                  RedirectRoute::redirect('user/management');
+               }  
             }else{
-               $_SESSION['register_error']= ['Something bad happened, try again please.'];
+               $_SESSION['register_error']= ['Register'=>'Something bad happened, try again please.'];
             }
          }else{
             $_SESSION['register_error'] =  $error;
@@ -58,8 +63,6 @@ class UserController{
       }
       if(isset($_SESSION['register_error']) && !empty($_SESSION['register_error'])){
          RedirectRoute::redirect('user/register');
-      }else{
-         RedirectRoute::redirect('user/management');
       }
    }
 

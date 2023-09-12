@@ -15,20 +15,22 @@
 
 	<!--jquery -->
 	<script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="<?=url_base?>views/assets/js/scripts.js"></script>
 </head>
 <body>
+    <header class="navbar navbar-expand-sm bg-light navbar-light fixed-top py-3 d-flex">
     <?php 
         $isLogged = false;
     if(isset($_SESSION['user_logged'])):
         $isLogged = true;
     endif;    
     ?>
-    <nav class="navbar navbar-expand-sm bg-light navbar-light fixed-top pt-3 d-flex">
+    <nav class="container">
         <div class="container-fluid justify-content-center " >
-            <div><i class="fa-solid fa-house-user"></i></div>
             <div class="collapse navbar-collapse" id="mynavbar">
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
+                    <li class="nav-item d-flex">
+                        <i class="fa-solid fa-house-user mt-2"></i>
                         <a class="nav-link" href="<?=url_base?>user/management">Home</a>
                     </li>
                 </ul>
@@ -50,4 +52,8 @@
             </div>
         </div>
     </nav>
+    </header>
+    <main class="container-fluid pb-5" style="height: 100vh;">
+    
 
+    

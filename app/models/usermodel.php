@@ -124,7 +124,7 @@ class UserModel{
     }
     static public function getUser($column,$value){
         $connectDb = new self();
-        $sql = "SELECT * FROM users WHERE $column = :$column";
+        $sql = "SELECT *, DATE_FORMAT(created_at,'%d/%m/%Y') AS created_at FROM users WHERE $column = :$column";
         $stmt = $connectDb->connection->prepare($sql);
         if(is_int($value)){
             $stmt->bindParam(':'.$column,$value,PDO::PARAM_INT);
@@ -140,7 +140,7 @@ class UserModel{
 
     static public function getUsers(){
         $connectDb = new self();
-        $sql = "SELECT * FROM users";
+        $sql = "SELECT *, DATE_FORMAT(created_at,'%d/%m/%Y') AS created_at FROM users ORDER BY id DESC";
         $stmt = $connectDb->connection->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_CLASS);
@@ -150,9 +150,9 @@ class UserModel{
 
     public function saveUser(){
         try{
+            $connectDb = new self();
             $sql = 'INSERT INTO users (user_name,email,password,image,created_at) VALUES(:user_name,:email,:password,:image,CURDATE())';
-            $connection = Connection::connect();
-            $stmt = $connection->prepare($sql);
+            $stmt = $connectDb->connection->prepare($sql);
             $param_name   = $this->getUserName();
             $param_email  = $this->getEmail();
             $param_psword = $this->getPassword();

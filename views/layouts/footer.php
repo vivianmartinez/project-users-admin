@@ -1,4 +1,8 @@
-<footer class="text-center text-white fixed-bottom bg-light">
+</main>
+<div class="row">
+<!--<footer class="text-center text-white fixed-bottom bg-light"> -->
+<footer class="footer text-center text-white bg-light absolute-bottom">
+
     <!-- Grid container -->
     <div class="container pt-4">
       <!-- Section: Social media -->
@@ -41,6 +45,7 @@
     </div>
     <!-- Copyright -->
   </footer>
-  
+</div>
+
 </body>
 </html>

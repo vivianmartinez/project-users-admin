@@ -39,6 +39,7 @@ class LoginController{
                 $_SESSION['login_error'] = $error;  
            }
         }
+        
         if(isset($_SESSION['login_error']) && !empty($_SESSION['login_error'])){
             RedirectRoute::redirect('login');
         } 
