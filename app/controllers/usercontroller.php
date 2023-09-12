@@ -70,5 +70,11 @@ class UserController{
       $users = UserModel::getUsers();
       include 'views/users/management.php';
    }
+   public function profile(){
+      if(isset($_GET['id'])){
+         $profile_user = UserModel::getUser('id',$_GET['id']);
+         include 'views/users/profile.php';
+      }
+   }
 
 }

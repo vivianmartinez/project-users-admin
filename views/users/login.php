@@ -5,9 +5,9 @@
 	$isLogged = CheckLoginStatus::isLoggedIn();
 ?>
 
-<div class="container-fluid mt-5 py-5 col-sm-12 col-md-5 col-lg-3 col-xl-3">
 <?php if(!$isLogged): ?>
-	<form action="<?=url_base?>login/signin" method="POST" class="py-4 px-4 mb-4 bg-light">
+<div class="container-fluid mt-5 py-5 col-sm-12 col-md-5 col-lg-3 col-xl-3" style="height: 100vh;">
+	<form action="<?=url_base?>login/signin" method="POST" class="py-4 px-4 mb-4 bg-light mt-5">
 		<div class="mb-3 mt-3">
 			<label for="Email" class="form-label">Email:</label>
 			<div class="input-group">
@@ -21,22 +21,29 @@
 			<div class="input-password">
 				<div class="input-group">
 					<span class="input-group-text"><i class="fas fa-lock"></i></span>
-					<input type="password" class="form-control" id="Password" placeholder="Enter password" name="login_password">
+					<input id="login_password" type="password" class="form-control" id="Password" placeholder="Enter password" name="login_password">
 				</div>
-					<i id="eye_password" class="fa-regular fa-eye-slash eye-pword"></i>
+				<div id="eye_password" class="eye-pword">
+					<i class="fa-regular fa-eye-slash"></i>
+				</div>
 					<!--<i class="fa-regular fa-eye"></i> replace with js-->
 			</div>
 		</div>
 		<button type="submit" class="btn btn-custom mb-3">Sign In</button>
 	</form>
+	<?php if(isset($_SESSION['login_error'])):
+		DisplayError::displayErrors('login_error');
+		ResetSession::deleteSession('login_error');
+	endif;?>
+</div>
 <?php else: ?>
-	<div class="text-info"><strong>You are already logged...</strong></div>
+<div class="container-fluid">
+    <div class="text-info container mt-5 py-5 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+		<strong>You are already logged...</strong>
+	</div>
+</div>
 <?php endif; ?>
 
-<?php if(isset($_SESSION['login_error'])):
-	DisplayError::displayErrors('login_error');
-	ResetSession::deleteSession('login_error');
-endif;?>
-</div>
+
 
 

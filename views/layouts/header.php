@@ -53,7 +53,7 @@
         </div>
     </nav>
     </header>
-    <main class="container-fluid pb-5" style="height: 100vh;">
+    <main class="container-fluid pb-5">
     
 
     

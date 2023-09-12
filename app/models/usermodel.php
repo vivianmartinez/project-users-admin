@@ -11,7 +11,7 @@ class UserModel{
     private $created_at;
     private $connection;
 
-    private function __construct()
+    public function __construct()
     {
         $this->connection = Connection::connect();
     }
@@ -151,7 +151,7 @@ class UserModel{
     public function saveUser(){
         try{
             $connectDb = new self();
-            $sql = 'INSERT INTO users (user_name,email,password,image,created_at) VALUES(:user_name,:email,:password,:image,CURDATE())';
+            $sql = 'INSERT INTO users (user_name,email,password,image) VALUES(:user_name,:email,:password,:image)';
             $stmt = $connectDb->connection->prepare($sql);
             $param_name   = $this->getUserName();
             $param_email  = $this->getEmail();
@@ -169,6 +169,13 @@ class UserModel{
         return $stmt;
         
         $stmt = null;
+    }
+
+    public function updateUser(){
+        $connectDb = new self();
+        $sql = '';
+        $stmt = $connectDb->connection->prepare($sql);
+
     }
 
 }

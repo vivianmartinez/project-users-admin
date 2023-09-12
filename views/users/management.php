@@ -8,8 +8,8 @@
   $logged_in = CheckLoginStatus::isLoggedIn();
   if($logged_in):
 ?>
-<div class="container-fluid">
-  <div class="container mb-5" style="height: 100vh;margin-top: 80px;">
+<div class="container-fluid h-auto">
+  <div class="container mb-5 mt-5 py-5">
     <?php if($registered): ?>
       <div class="alert alert-success"><?=$message?></div>
     <?php endif; ?>
@@ -39,7 +39,7 @@
           <td><?=$user->capabilities?></td>
           <td><?=$user->created_at ?></td>
           <td>
-            <a href="#" class="btn btn-info"><i class="fa-solid fa-user-pen white"></i></a>
+            <a href="<?=url_base?>user/profile&id=<?=$user->id?>" class="btn btn-info"><i class="fa-solid fa-user-pen white"></i></a>
             <a href="#" class="btn btn-danger"><i class="fa-solid fa-user-xmark white"></i></a>
           </td>
         </tr>

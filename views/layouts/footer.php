@@ -1,7 +1,7 @@
 </main>
-<div class="row">
+
 <!--<footer class="text-center text-white fixed-bottom bg-light"> -->
-<footer class="footer text-center text-white bg-light absolute-bottom">
+<footer class="footer text-center text-white bg-light absolute-bottom mt-5">
 
     <!-- Grid container -->
     <div class="container pt-4">
@@ -45,7 +45,5 @@
     </div>
     <!-- Copyright -->
   </footer>
-</div>
-
 </body>
 </html>

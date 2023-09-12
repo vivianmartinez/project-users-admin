@@ -1,9 +1,8 @@
 <?php $isLogged = CheckLoginStatus::isLoggedIn(); ?>
 <?php if(!$isLogged): ?>
-<div class="row">
-    <div class="container-fluid mt-5 py-5 col-sm-12 col-md-6 col-lg-4 col-xl-4">
-        <div class="container py-5">
-            <form action="<?=url_base?>user/signup" method="POST" enctype="multipart/form-data">
+<div class="container-fluid">
+    <div class=" container mt-5 py-5 col-sm-12 col-md-6 col-lg-4 col-xl-4" style="height: 100vh;">
+            <form class="mt-5 mb-4" action="<?=url_base?>user/signup" method="POST" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="register_name" class="form-label">Name</label>
                     <input type="text" class="form-control" id="register_name" name="register_name">
@@ -23,8 +22,6 @@
                 </div>
                 <button type="submit" class="btn btn-custom">Sign Up</button>
             </form>
-        </div>
-
     <?php
     if(isset($_SESSION['register_error'])):
         DisplayError::displayErrors('register_error');
@@ -34,7 +31,9 @@
     </div>
 </div>
 <?php else: ?>
-    <div class="text-info d-flex justify-content-center align-items-center" style="height: 600px;">
+<div class="container-fluid">
+    <div class="text-info container mt-5 py-5 col-sm-12 col-md-6 col-lg-4 col-xl-4">
         <strong>You are already registered...</strong>
     </div>
+</div>
 <?php endif; ?>
