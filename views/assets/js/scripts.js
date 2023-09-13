@@ -1,5 +1,4 @@
 window.addEventListener('load',()=>{
-    
     const icon = document.getElementById('eye_password');
     if(icon){
         icon.addEventListener('click',(e)=>{
@@ -19,4 +18,16 @@ window.addEventListener('load',()=>{
             }
         });
     }
+    //modify user password form profile
+    const change_password = document.querySelectorAll('.form-check-input');
+    if(change_password){
+        change_password.forEach((item)=>item.addEventListener('click',()=>{
+            console.log(item.value);
+            if(item.value){
+                last_password.toggleAttribute('disabled');
+                new_password.toggleAttribute('disabled');
+            }
+        }));
+    }
+
 });

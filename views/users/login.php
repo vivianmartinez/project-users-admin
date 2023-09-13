@@ -37,8 +37,8 @@
 	endif;?>
 </div>
 <?php else: ?>
-<div class="container-fluid">
-    <div class="text-info container mt-5 py-5 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+<div class="container-fluid" style="height: 100vh;">
+    <div class="text-info container col-md-4 py-5">
 		<strong>You are already logged...</strong>
 	</div>
 </div>

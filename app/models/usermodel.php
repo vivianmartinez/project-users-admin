@@ -171,11 +171,35 @@ class UserModel{
         $stmt = null;
     }
 
-    public function updateUser(){
-        $connectDb = new self();
-        $sql = '';
-        $stmt = $connectDb->connection->prepare($sql);
-
+    public function updateUser($id){
+        try{
+            $connectDb = new self();
+            $add_sql = '';
+            if($this->getCapabilities() =='subscriber' || $this->getCapabilities() == 'admin' ){
+                $add_sql = ',capabilities = :capabilities';
+            }
+            $sql = "UPDATE users SET user_name = :user_name, email = :email, image = :image, password = :password {$add_sql} WHERE id = :id";
+            $stmt = $connectDb->connection->prepare($sql);
+            $param_name   = $this->getUserName();
+            $param_email  = $this->getEmail();
+            $param_psword = $this->getPassword();
+            $param_img    = $this->getImage(); 
+            $stmt->bindParam(':id',$id,PDO::PARAM_INT);
+            $stmt->bindParam(':user_name',$param_name,PDO::PARAM_STR);
+            $stmt->bindParam(':email',$param_email,PDO::PARAM_STR);
+            $stmt->bindParam(':password',$param_psword,PDO::PARAM_STR);
+            $stmt->bindParam(':image',$param_img,PDO::PARAM_STR);
+            if($add_sql != ''){
+                $param_cap = $this->getCapabilities();
+                $stmt->bindParam(':capabilities',$param_cap,PDO::PARAM_STR);
+            }
+            $stmt->execute();
+        }catch(exception $er){
+            print_r($sql);
+            return ['error' => true, 'message' => $er->getMessage()];
+        }
+        return $stmt;
+        $stmt = null;
     }
 
 }

@@ -8,13 +8,13 @@
   $logged_in = CheckLoginStatus::isLoggedIn();
   if($logged_in):
 ?>
-<div class="container-fluid h-auto">
-  <div class="container mb-5 mt-5 py-5">
+
+  <div class="container mb-5 py-5 h-auto">
     <?php if($registered): ?>
       <div class="alert alert-success"><?=$message?></div>
     <?php endif; ?>
     <h2>All users</h2>        
-    <table class="table table-dark table-hover align-middle">
+    <table class="table table-dark table-hover align-middle overflow-scroll">
       <thead>
         <tr>
           <th></th>
@@ -47,7 +47,7 @@
       </tbody>
     </table>
   </div>
-</div>
+
 <?php 
 else: 
   RedirectRoute::redirect('login');
