@@ -7,51 +7,58 @@ class UserController{
    public function register(){
       include 'views/users/register.php';
    }
-
+   /* save new user */
    public function signUp(){
-      
       if(isset($_POST)){
          $name     = isset($_POST['register_name']) ? $_POST['register_name'] : false;
          $email    = isset($_POST['register_email']) ? $_POST['register_email'] : false;
          $password = isset($_POST['register_password']) ? $_POST['register_password'] : false;
          $picture  = isset($_FILES['register_image']) ? $_FILES['register_image'] : false;
 
+         /* use helper validate user to validate name, email, password*/
          $validate_user = ValidateUser::validateFields($name,$email,$password);
-         
-         if(!$validate_user['error']){
-            $name_file = 'avatar.png';
-            if(is_dir('storage/images')){
-               if($picture){
-                  if(   $_FILES['register_image']['type'] == 'image/jpeg' 
-                     || $_FILES['register_image']['type'] == 'image/jpg' 
-                     || $_FILES['register_image']['type'] == 'image/png'){
-                     
-                     $name_file = $_FILES['register_image']['name'];
-                     $tmp_name  = $_FILES['register_image']['tmp_name'];
-                     move_uploaded_file($tmp_name,'storage/images/'.$name_file);
+         $exists_email = UserModel::getUser('email',$email);
+
+         $_SESSION['old_data_register'] = ['name' => $name ? $name : '','email' => $email ? $email : ''];
+
+         if($exists_email){
+            $_SESSION['register_error']= ['Register'=>'The email already exists.'];
+         }else{
+            if(!$validate_user['error']){
+               $name_file = 'avatar.png';
+               if(is_dir('storage/images')){
+                  if($picture){
+                     if(   $_FILES['register_image']['type'] == 'image/jpeg' 
+                        || $_FILES['register_image']['type'] == 'image/jpg' 
+                        || $_FILES['register_image']['type'] == 'image/png'){
+                        
+                        $name_file = $_FILES['register_image']['name'];
+                        $tmp_name  = $_FILES['register_image']['tmp_name'];
+                        move_uploaded_file($tmp_name,'storage/images/'.$name_file);
+                     }
                   }
                }
-            }
-            $password_hash = password_hash($password,PASSWORD_BCRYPT,['cost'=>4]);
-            $user = new UserModel();
-            $user->setUserName($name);
-            $user->setEmail($email);
-            $user->setPassword($password_hash);
-            $user->setImage($name_file);
-            $response = $user->saveUser();
-           
-            if(! is_array($response) && $response){
-               $_SESSION['register_success'] = ['error' => false, 'message' =>'¡The user has been created succesfully!'];
-               $search_user = UserModel::getUser('email',$email);
-               if(!empty($search_user)){
-                  $_SESSION['user_logged'] = $search_user[0];
-                  RedirectRoute::redirect('user/management');
-               }  
+               $password_hash = password_hash($password,PASSWORD_BCRYPT,['cost'=>4]);
+               $user = new UserModel();
+               $user->setUserName($name);
+               $user->setEmail($email);
+               $user->setPassword($password_hash);
+               $user->setImage($name_file);
+               $response = $user->saveUser();
+              
+               if(! is_array($response) && $response){
+                  $_SESSION['register_success'] = ['error' => false, 'message' =>'¡The user has been created succesfully!'];
+                  $search_user = UserModel::getUser('email',$email);
+                  if(!empty($search_user)){
+                     $_SESSION['user_logged'] = $search_user[0];
+                     RedirectRoute::redirect('user/management');
+                  }  
+               }else{
+                  $_SESSION['register_error']= ['Register'=>'Something bad happened, try again please.'];
+               }
             }else{
-               $_SESSION['register_error']= ['Register'=>'Something bad happened, try again please.'];
+               $_SESSION['register_error'] =  $validate_user['content'];
             }
-         }else{
-            $_SESSION['register_error'] =  $validate_user['content'];
          }
       }
       if(isset($_SESSION['register_error']) && !empty($_SESSION['register_error'])){

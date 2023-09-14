@@ -1,6 +1,7 @@
-<?php 
-	if(isset($_SESSION['login_data'])):
-		$login_data = $_SESSION['login_data'];
+<?php
+	$old_data['email'] = '';
+	if(isset($_SESSION['old_data_login'])):
+		$old_data = $_SESSION['old_data_login'];
 	endif;
 	$isLogged = CheckLoginStatus::isLoggedIn();
 ?>
@@ -12,8 +13,7 @@
 			<label for="Email" class="form-label">Email:</label>
 			<div class="input-group">
 				<span class="input-group-text"><i class="fas fa-envelope"></i></span>
-				<input type="email" class="form-control" id="Email" placeholder="Enter email" name="login_email" value="<?= isset($login_data) ? $login_data['email'] : '';?>">
-
+				<input type="email" class="form-control" id="Email" placeholder="Enter email" name="login_email" value="<?= $old_data['email']?>">
 			</div>
 		</div>
 		<div class="mb-3">

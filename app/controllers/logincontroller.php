@@ -15,7 +15,7 @@ class LoginController{
            if(!$email) $error['email'] = 'Enter email address, please.';
            if(!$password) $error['password'] = 'Enter password, please';
 
-           $_SESSION['login_data'] = ['email' => $email ? $email : '', 'password' => $password ? $password : ''];
+           $_SESSION['old_data_login'] = ['email' => $email ? $email : ''];
 
            if(empty($error)){
             $search_user = UserModel::getUser('email',$email);
