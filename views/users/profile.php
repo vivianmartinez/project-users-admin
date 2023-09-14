@@ -1,6 +1,18 @@
-<?php 
-    if(isset($profile_user) && !empty($profile_user)):
+<?php
+    if(!isset($profile_user) || empty($profile_user)):     
 ?>
+<div class="container-fluid" style="height: 100vh;">
+    <div class=" text-danger container col-md-4 py-5">
+        <strong>Error: The user doesn't exist... Make sure the Id is correct.</strong>
+    </div>
+</div>
+<?php elseif($_SESSION['user_logged']->id != $_GET['id'] && $_SESSION['user_logged']->capabilities != 'admin' ): ?>
+<div class="container-fluid" style="height: 100vh;">
+    <div class=" text-danger container col-md-4 py-5">
+        <strong>Error: This action is not allowed. You only can edit your user profile.</strong>
+    </div>
+</div>
+<?php else: ?>
 <div class="container-fluid h-auto">
     <div class="container py-5 col-sm-12 col-md-6 col-lg-6 col-xl-6" style="min-height: 100vh;">
         <form class="mt-5 mb-4" action="<?=url_base?>user/edit&id=<?=$profile_user[0]->id?>" method="POST" enctype="multipart/form-data">
@@ -51,20 +63,21 @@
                     </div>
                     <button type="submit" class="btn btn-custom mb-4">Update Profile</button>
                     <?php
-                    if(isset($_SESSION['edit_error'])):
-                        DisplayError::displayErrors('edit_error');
-                        ResetSession::deleteSession('edit_error');
-                    endif;
+                        if(isset($_SESSION['edit_error'])):
+                            DisplayError::displayErrors('edit_error');
+                            ResetSession::deleteSession('edit_error');
+                        endif;
+                    ?>
+                    <?php if(isset($_SESSION['edit_success']) && ! $_SESSION['edit_success']['error'] ): ?>
+                        <div class="alert alert-success"><?=$_SESSION['edit_success']['message']?></div>
+                    <?php 
+                        ResetSession::deleteSession('edit_success');
+                        endif; 
                     ?>
                 </div>
             </div>
         </form>
     </div>
 </div>
-<?php else: ?>
-<div class="container-fluid" style="height: 100vh;">
-    <div class=" text-danger container col-md-4 py-5">
-    <strong>Error: The user doesn't exist... Make sure the Id is correct.</strong>
-    </div>
-</div>
 <?php endif; ?>
+

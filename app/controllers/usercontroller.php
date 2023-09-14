@@ -41,7 +41,7 @@ class UserController{
             $response = $user->saveUser();
            
             if(! is_array($response) && $response){
-               $_SESSION['register_success'] = '¡The user has been created succesfully!';
+               $_SESSION['register_success'] = ['error' => false, 'message' =>'¡The user has been created succesfully!'];
                $search_user = UserModel::getUser('email',$email);
                if(!empty($search_user)){
                   $_SESSION['user_logged'] = $search_user[0];
@@ -102,10 +102,8 @@ class UserController{
                      move_uploaded_file($tmp_name,'storage/images/'.$name_file);   
                   }
                }
-            }
-           
+            } 
             $user->setImage($name_file);
-            
             $password_hash = $user_edit[0]->password;
             
             if(isset($_POST['change_password']) && $_POST['change_password'] == 'true'){
@@ -123,14 +121,16 @@ class UserController{
             $user->setPassword($password_hash);
             if(!isset( $_SESSION['edit_error'])){
                $response = $user->updateUser($id_user);
-               print_r($response);
+
+               if($response && is_object($response)){
+                  $_SESSION['edit_success'] = ['error' => false, 'message' => '¡The user has been updated succesfully!'];
+               }
             }
          }
-         
       }else{
          $_SESSION['edit_error'] = $validate_user['content'];
       }
-      //RedirectRoute::redirect('user/profile&id='.$_GET['id']);
+      RedirectRoute::redirect('user/profile&id='.$_GET['id']);
    }
 
 }

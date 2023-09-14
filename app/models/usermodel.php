@@ -195,7 +195,6 @@ class UserModel{
             }
             $stmt->execute();
         }catch(exception $er){
-            print_r($sql);
             return ['error' => true, 'message' => $er->getMessage()];
         }
         return $stmt;
