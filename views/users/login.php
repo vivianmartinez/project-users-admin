@@ -7,7 +7,7 @@
 ?>
 
 <?php if(!$isLogged): ?>
-<div class="container-fluid mt-5 py-5 col-sm-12 col-md-5 col-lg-3 col-xl-3" style="height: 100vh;">
+<div class="container-fluid mt-5 py-5 col-sm-12 col-md-5 col-lg-3 col-xl-3 h-auto">
 	<form action="<?=url_base?>login/signin" method="POST" class="py-4 px-4 mb-4 bg-light mt-5">
 		<div class="mb-3 mt-3">
 			<label for="Email" class="form-label">Email:</label>
@@ -26,7 +26,6 @@
 				<div id="eye_password" class="eye-pword">
 					<i class="fa-regular fa-eye-slash"></i>
 				</div>
-					<!--<i class="fa-regular fa-eye"></i> replace with js-->
 			</div>
 		</div>
 		<button type="submit" class="btn btn-custom mb-3">Sign In</button>

@@ -15,12 +15,14 @@
 <?php else: ?>
 <div class="container-fluid h-auto">
     <div class="container py-5 col-sm-12 col-md-6 col-lg-6 col-xl-6" style="min-height: 100vh;">
-        <form class="mt-5 mb-4" action="<?=url_base?>user/edit&id=<?=$profile_user[0]->id?>" method="POST" enctype="multipart/form-data">
+        <form id="form-profile" class="mt-5 mb-4" action="<?=url_base?>user/edit&id=<?=$profile_user[0]->id?>" method="POST" enctype="multipart/form-data">
             <div class="d-md-flex">
-                <div class="d-block pt-4 text-center">
-                    <img src="<?=url_base?>storage/images/<?=$profile_user[0]->image?>" class="rounded-circle" alt="avatar" width="180px">
-                    <label for="edit_image" class="form-label align-bottom"><span class="btn btn-light mt-3"><i class="fa-solid fa-upload"></i> Upload image</span></label>
-                    <input type="file" class="d-none" id="edit_image" name="edit_image">
+                <div class="d-block text-center">
+                    <img src="<?=url_base?>storage/images/<?=$profile_user[0]->image?>" class="rounded-circle mb-2 preview" alt="avatar" width="180px">
+                    <div class="small text-muted">JPG, JPEG or PNG</div>
+                    <div class="small text-muted">No longer than 1MG</div>
+                    <label for="profile_image" class="form-label align-bottom"><span class="btn btn-light mt-3"><i class="fa-solid fa-upload"></i> Upload image</span></label>
+                    <input type="file" class="d-none" id="profile_image" name="edit_image">
                 </div>
                 <div class="container">
                     <div class="mb-3">
@@ -61,7 +63,7 @@
                         <label for="new_password" class="form-label">New Password</label>
                         <input type="password" class="form-control" id="new_password" name="new_password" disabled>
                     </div>
-                    <button type="submit" class="btn btn-custom mb-4">Update Profile</button>
+                    <button id="submit-profile" type="submit" class="btn btn-custom mb-4">Update Profile</button>
                     <?php
                         if(isset($_SESSION['edit_error'])):
                             DisplayError::displayErrors('edit_error');

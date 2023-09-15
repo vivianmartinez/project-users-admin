@@ -30,4 +30,51 @@ window.addEventListener('load',()=>{
         }));
     }
 
+    //user image validation register form
+    const register_image = document.getElementById('register_image');
+    if(register_image){
+        register_image.addEventListener('change',()=>{
+            preview_image(register_image,'submit-register');
+        });
+    }
+    //user image validation profile form
+    const profile_image = document.getElementById('profile_image');
+    if(profile_image){
+        profile_image.addEventListener('change',()=>{
+            preview_image(profile_image,'submit-profile');
+        });
+    }
+
+    //function preview image
+
+    const preview_image = (element,after_element) =>{
+        if(document.querySelector('.alert')){
+            document.querySelector('.alert').remove();
+        }
+        const file = element.files[0];
+        const el_after = document.getElementById(after_element);
+        let error = document.createElement('div');
+        error.classList.add('alert');
+        error.classList.add('alert-danger'); 
+        if(file.size > 1000000){                  
+            error.innerHTML = `<strong>Error:</strong> Image no longer than 1MB`;
+            el_after.after(error);
+            element.value = '';
+            return;
+        }else if(file.type != 'image/jpeg' && file.type && 'image/jpg' && file.type != 'image/png'){
+            error.innerHTML = `<strong>Error:</strong> Image type only JPG, JPEG or PNG.`;
+            el_after.after(error);
+            element.value = '';
+            return;
+        }else{
+            let data_image = new FileReader;
+            data_image.readAsDataURL(file);
+            console.log(data_image);
+            data_image.addEventListener('load',(e)=>{
+                let route_img = e.target.result;
+                let preview = document.querySelector('.preview');
+                preview.src = route_img;
+            });
+        }
+    }
 });
