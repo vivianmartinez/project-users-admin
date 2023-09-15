@@ -7,6 +7,7 @@
   }
   $logged_in = CheckLoginStatus::isLoggedIn();
   if($logged_in):
+    $is_admin = CheckCapabilities::isAdmin();
 ?>
 <div class="container mb-5 py-5 h-auto">
   <?php if($registered): ?>
@@ -21,7 +22,7 @@
         <th>Email</th>
         <th>Capabilities</th>
         <th>Create Date</th>
-        <th></th>
+        <th>Settings</th>
       </tr>
     </thead>
     <tbody>
@@ -39,11 +40,12 @@
         <td><?=$user->created_at  ?></td>
         <td>
           <div class="btn-group">
-            <a href="<?=url_base?>user/profile&id=<?=$user->id?>" <?= $_SESSION['user_logged']->capabilities == 'admin' || $_SESSION['user_logged']->id == $user->id ? 'class="btn btn-info"' : 'class="btn btn-secondary disabled"' ?>>
+            <a href="<?=url_base?>user/profile&id=<?=$user->id?>" <?= $is_admin || $_SESSION['user_logged']->id == $user->id ? 'class="btn btn-info"' : 'class="btn btn-secondary disabled"' ?>>
               <i class="fa-solid fa-user-pen white"></i>
             </a>
-            <?php if($_SESSION['user_logged']->capabilities == 'admin'): ?>
-            <a href="#" class="btn btn-danger"><i class="fa-solid fa-user-xmark white"></i></a>
+            <?php if($is_admin): ?>
+            <input class="user-id" type="hidden" name="delete" value="<?=$user->id?>">
+            <button id="user-<?=$user->id?>" class="btn btn-danger delete-user"><i class="fa-solid fa-user-xmark white"></i></button>
             <?php endif; ?>
           </div>
         </td>

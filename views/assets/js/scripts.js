@@ -44,9 +44,7 @@ window.addEventListener('load',()=>{
             preview_image(profile_image,'submit-profile');
         });
     }
-
     //function preview image
-
     const preview_image = (element,after_element) =>{
         if(document.querySelector('.alert')){
             document.querySelector('.alert').remove();

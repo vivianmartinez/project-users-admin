@@ -45,5 +45,6 @@
     </div>
     <!-- Copyright -->
   </footer>
+  <script type="text/javascript" src="<?=url_base?>views/assets/js/ajax.js"></script>
 </body>
 </html>

@@ -3,11 +3,11 @@
 require_once 'app/helpers/validate-user.php';
 
 class UserController{
-
+   /* Register user */
    public function register(){
       include 'views/users/register.php';
    }
-   /* save new user */
+   /* Save new user */
    public function signUp(){
       if(isset($_POST)){
          $name     = isset($_POST['register_name']) ? $_POST['register_name'] : false;
@@ -70,7 +70,6 @@ class UserController{
       if(isset($_SESSION['register_error']) && !empty($_SESSION['register_error'])){
          RedirectRoute::redirect('user/register');
       }
-      
    }
 
    /* show all users */
@@ -78,6 +77,8 @@ class UserController{
       $users = UserModel::getUsers();
       include 'views/users/management.php';
    }
+
+    /* User profile */
    public function profile(){
       if(isset($_GET['id'])){
          $profile_user = UserModel::getUser('id',$_GET['id']);
@@ -85,8 +86,7 @@ class UserController{
       }
    }
 
-   /* edit user */
-
+   /* Edit user */
    public function edit(){
       $id_user  = isset($_GET['id']) ? $_GET['id'] : false;
       $name     = isset($_POST['edit_name']) ? $_POST['edit_name'] : false;
@@ -153,5 +153,13 @@ class UserController{
       }
       RedirectRoute::redirect('user/profile&id='.$_GET['id']);
    }
+
+    /* Delete user */
+
+    public function delete(){
+      if(isset($_POST['delete'])){
+         print_r($_POST['delete']);
+      }
+    }
 
 }

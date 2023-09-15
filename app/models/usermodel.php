@@ -1,5 +1,6 @@
 <?php
 
+require_once ('app/database/connection.php');
 
 class UserModel{
 
@@ -105,7 +106,7 @@ class UserModel{
         return $this;
     }
 
-        /**
+    /**
      * Get the value of created_at
      */
     public function getCreatedAt()
@@ -122,6 +123,7 @@ class UserModel{
 
         return $this;
     }
+    /** Get single user */
     static public function getUser($column,$value){
         $connectDb = new self();
         $sql = "SELECT *, DATE_FORMAT(created_at,'%d/%m/%Y') AS created_at FROM users WHERE $column = :$column";
@@ -137,7 +139,7 @@ class UserModel{
         $stmt = null;
         return $response;
     }
-
+    /** Get all users */
     static public function getUsers(){
         $connectDb = new self();
         $sql = "SELECT *, DATE_FORMAT(created_at,'%d/%m/%Y') AS created_at FROM users ORDER BY id DESC";
@@ -147,7 +149,7 @@ class UserModel{
         
         $stmt = null;
     }
-
+    /** Save user */
     public function saveUser(){
         try{
             $connectDb = new self();
@@ -170,7 +172,7 @@ class UserModel{
         
         $stmt = null;
     }
-
+    /** Update user */
     public function updateUser($id){
         try{
             $connectDb = new self();
@@ -201,4 +203,14 @@ class UserModel{
         $stmt = null;
     }
 
+    /** Delete user */
+    public function deleteUser($id){
+
+        try{
+
+        }catch(Exception $er){
+
+        }
+
+    }
 }
