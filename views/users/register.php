@@ -8,7 +8,7 @@
 <?php $isLogged = CheckLoginStatus::isLoggedIn(); ?>
 <?php if(!$isLogged): ?>
 <div class="container-fluid">
-    <div class=" container mt-5 py-5 col-sm-12 col-md-6 col-lg-4 col-xl-4 h-auto">
+    <div class=" container mt-5 py-5 col-sm-12 col-md-6 col-lg-4 col-xl-4 h-auto content">
         <form id="form-register" class="mt-5 mb-4" action="<?=url_base?>user/signup" method="POST" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="register_name" class="form-label">Name</label>

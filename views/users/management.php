@@ -9,7 +9,7 @@
   if($logged_in):
     $is_admin = CheckCapabilities::isAdmin();
 ?>
-<div class="container mb-5 py-5 h-auto">
+<div class="container mb-5 py-5 h-auto content">
   <?php if($registered): ?>
     <div class="alert alert-success"><?=$message?></div>
   <?php endif; ?>
@@ -17,35 +17,35 @@
   <table class="table table-dark table-hover align-middle overflow-scroll">
     <thead>
       <tr>
-        <th></th>
-        <th>User</th>
-        <th>Email</th>
-        <th>Capabilities</th>
-        <th>Create Date</th>
-        <th>Settings</th>
+        <th id="table-header-pc"></th>
+        <th id="table-header-nm">User name</th>
+        <th id="table-header-em">Email</th>
+        <th id="table-header-cp">Capabilities</th>
+        <th id="table-header-cd">Create Date</th>
+        <th id="table-header-st">Settings</th>
       </tr>
     </thead>
     <tbody>
       <?php foreach($users as $user): ?>
-      <tr>
-        <td>
+      <tr class="table-row-<?=$user->id?>">
+        <td class="table-value-pc">
           <div>
             <img src="<?=url_base?>storage/images/<?=$user->image?>" class="rounded img-fluid img-thumbnail" 
             alt="<?=$user->image?>" width="50px">
           </div>
         </td>
-        <td><?=$user->user_name   ?></td>
-        <td><?=$user->email       ?></td>
-        <td><?=$user->capabilities?></td>
-        <td><?=$user->created_at  ?></td>
-        <td>
+        <td class="table-value-nm"><?=$user->user_name   ?></td>
+        <td class="table-value-em"><?=$user->email       ?></td>
+        <td class="table-value-cp"><?=$user->capabilities?></td>
+        <td class="table-value-cd"><?=$user->created_at  ?></td>
+        <td class="table-value-st">
           <div class="btn-group">
             <a href="<?=url_base?>user/profile&id=<?=$user->id?>" <?= $is_admin || $_SESSION['user_logged']->id == $user->id ? 'class="btn btn-info"' : 'class="btn btn-secondary disabled"' ?>>
               <i class="fa-solid fa-user-pen white"></i>
             </a>
             <?php if($is_admin): ?>
             <input class="user-id" type="hidden" name="delete" value="<?=$user->id?>">
-            <button id="user-<?=$user->id?>" class="btn btn-danger delete-user"><i class="fa-solid fa-user-xmark white"></i></button>
+            <button class="btn btn-danger delete-user"><i class="fa-solid fa-user-xmark white"></i></button>
             <?php endif; ?>
           </div>
         </td>

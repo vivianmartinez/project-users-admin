@@ -7,7 +7,7 @@
 ?>
 
 <?php if(!$isLogged): ?>
-<div class="container-fluid mt-5 py-5 col-sm-12 col-md-5 col-lg-3 col-xl-3 h-auto">
+<div class="container-fluid mt-5 py-5 col-sm-12 col-md-5 col-lg-3 col-xl-3 h-auto content">
 	<form action="<?=url_base?>login/signin" method="POST" class="py-4 px-4 mb-4 bg-light mt-5">
 		<div class="mb-3 mt-3">
 			<label for="Email" class="form-label">Email:</label>

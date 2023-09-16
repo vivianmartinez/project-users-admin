@@ -22,10 +22,13 @@ window.addEventListener('load',()=>{
     const change_password = document.querySelectorAll('.form-check-input');
     if(change_password){
         change_password.forEach((item)=>item.addEventListener('click',()=>{
-            console.log(item.value);
-            if(item.value){
-                last_password.toggleAttribute('disabled');
-                new_password.toggleAttribute('disabled');
+            if(item.value == 'true'){
+                last_password.removeAttribute('disabled');
+                new_password.removeAttribute('disabled');               
+            }
+            if(item.value == 'false'){
+                last_password.setAttribute("disabled",true);
+                new_password.setAttribute("disabled",true);
             }
         }));
     }

@@ -1,6 +1,6 @@
 <?php
 
-require_once ('app/database/connection.php');
+require_once ('database/connection.php');
 
 class UserModel{
 
@@ -125,16 +125,20 @@ class UserModel{
     }
     /** Get single user */
     static public function getUser($column,$value){
-        $connectDb = new self();
-        $sql = "SELECT *, DATE_FORMAT(created_at,'%d/%m/%Y') AS created_at FROM users WHERE $column = :$column";
-        $stmt = $connectDb->connection->prepare($sql);
-        if(is_int($value)){
-            $stmt->bindParam(':'.$column,$value,PDO::PARAM_INT);
-        }else{
-            $stmt->bindParam(':'.$column,$value,PDO::PARAM_STR);
+        try{
+            $connectDb = new self();
+            $sql = "SELECT *, DATE_FORMAT(created_at,'%d/%m/%Y') AS created_at FROM users WHERE $column = :$column";
+            $stmt = $connectDb->connection->prepare($sql);
+            if(is_int($value)){
+                $stmt->bindParam(':'.$column,$value,PDO::PARAM_INT);
+            }else{
+                $stmt->bindParam(':'.$column,$value,PDO::PARAM_STR);
+            }
+            $stmt->execute();
+            $response = $stmt->fetchAll(PDO::FETCH_CLASS);
+        }catch(Exception $er){
+            return ['error' => true, 'message' => $er->getMessage()];
         }
-        $stmt->execute();
-        $response = $stmt->fetchAll(PDO::FETCH_CLASS);
         
         $stmt = null;
         return $response;
@@ -152,9 +156,8 @@ class UserModel{
     /** Save user */
     public function saveUser(){
         try{
-            $connectDb = new self();
             $sql = 'INSERT INTO users (user_name,email,password,image) VALUES(:user_name,:email,:password,:image)';
-            $stmt = $connectDb->connection->prepare($sql);
+            $stmt = $this->connection->prepare($sql);
             $param_name   = $this->getUserName();
             $param_email  = $this->getEmail();
             $param_psword = $this->getPassword();
@@ -175,13 +178,12 @@ class UserModel{
     /** Update user */
     public function updateUser($id){
         try{
-            $connectDb = new self();
             $add_sql = '';
             if($this->getCapabilities() =='subscriber' || $this->getCapabilities() == 'admin' ){
                 $add_sql = ',capabilities = :capabilities';
             }
             $sql = "UPDATE users SET user_name = :user_name, email = :email, image = :image, password = :password {$add_sql} WHERE id = :id";
-            $stmt = $connectDb->connection->prepare($sql);
+            $stmt = $this->connection->prepare($sql);
             $param_name   = $this->getUserName();
             $param_email  = $this->getEmail();
             $param_psword = $this->getPassword();
@@ -204,12 +206,16 @@ class UserModel{
     }
 
     /** Delete user */
-    public function deleteUser($id){
-
-        try{
+    static public function deleteUser($id){
+        try{     
+            $connectDb = new self();     
+            $sql = 'DELETE FROM users WHERE id = :id';
+            $stmt = $connectDb->connection->prepare($sql);
+            $stmt->bindParam("id",$id,PDO::PARAM_INT);
+            $stmt->execute();
 
         }catch(Exception $er){
-
+            return ['error' => true, 'message' => $er->getMessage()];
         }
 
     }
