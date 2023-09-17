@@ -74,7 +74,26 @@ class UserController{
 
    /* show all users */
    public function management(){
-      $users = UserModel::getUsers();
+      $records = UserModel::countUsers();
+      $pages = ceil($records->records / 10); 
+      $page = 1;
+      $offset = $records->records - 10;
+
+      if(isset($_GET['page'])){
+         if($_GET['page'] <= $pages && $_GET['page'] > 0){
+            $offset = 0;
+            $page = intval($_GET['page']);
+            if( ($page * 10) < $records->records){
+               $offset = $records->records - ($page * 10);
+            }
+         }else{
+            $_SESSION['error_pagination'] = ['pages'=>'the page number doesn\'t exists.'];
+         }
+      }
+      $limit   = ($page * 10) > $records->records ? $records->records % 10 : 10;
+      $preview = $page - 1;
+      $next    = $page + 1;
+      $users_paginate = UserModel::getUsers($limit,$offset);
       include 'views/users/management.php';
    }
 

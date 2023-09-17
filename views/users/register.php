@@ -18,9 +18,14 @@
                 <label for="register_email" class="form-label">Email address</label>
                 <input type="email" class="form-control" id="register_email" name="register_email" value="<?=$old_data['email']?>">
             </div>
-            <div class="mb-3">
-                <label for="register_password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="register_password" name="register_password">
+            <div class="input-password">
+                <div class="mb-3">
+                    <label for="register_password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="register_password" name="register_password">
+                </div>
+                <div id="eye_password" class="eye-password eye-reg">
+					<i class="fa-regular fa-eye-slash"></i>
+				</div>
             </div>
             <div class="mb-3">
                 <img src="<?=url_base?>storage/images/avatar.png" class="rounded img-fluid img-thumbnail preview" alt="avatar" width="100px">
@@ -29,14 +34,12 @@
             </div>
             <button id="submit-register" type="submit" class="btn btn-custom mb-4">Sign Up</button>
         </form>
-    <div>
         <?php
         if(isset($_SESSION['register_error'])):
             DisplayError::displayErrors('register_error');
             ResetSession::deleteSession('register_error');
         endif;
         ?>
-        </div>
     </div>
 </div>
 <?php else: ?>

@@ -26,13 +26,16 @@ svg.svg-inline--fa.fa-user-xmark.white{
 div.input-password{
     position: relative;
 }
-div.input-password .eye-pword{
+div.input-password .eye-password{
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     right: 8px;
     font-size: 12px;
     cursor: pointer;
+}
+div.input-password .eye-reg{
+    top: 70%;
 }
 
 .content{

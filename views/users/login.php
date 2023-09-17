@@ -23,7 +23,7 @@
 					<span class="input-group-text"><i class="fas fa-lock"></i></span>
 					<input id="login_password" type="password" class="form-control" id="Password" placeholder="Enter password" name="login_password">
 				</div>
-				<div id="eye_password" class="eye-pword">
+				<div id="eye_password" class="eye-password">
 					<i class="fa-regular fa-eye-slash"></i>
 				</div>
 			</div>

@@ -1,20 +1,25 @@
 window.addEventListener('load',()=>{
+    //show password when click on eye and change icon
     const icon = document.getElementById('eye_password');
     if(icon){
         icon.addEventListener('click',(e)=>{
-            const password = document.getElementById('login_password');
+            const password_login = document.getElementById('login_password');
+            const password_register = document.getElementById('register_password');
+            
             const svg = icon.querySelector('.svg-inline--fa');
             svg.classList.add('fa-regular');
             if(svg.classList.contains('fa-eye-slash')){
                 svg.classList.remove('fa-eye-slash');
                 svg.classList.add('fa-eye');
                 svg.setAttribute('data-icon','eye');
-                password.type = 'text';
+                if(password_login) password_login.type = 'text';
+                if(password_register) password_register.type = 'text';
             }else{
                 svg.classList.remove('fa-eye');
                 svg.classList.add('fa-eye-slash');
                 svg.setAttribute('data-icon','eye-slash');
-                password.type = 'password';
+                if(password_login) password_login.type = 'password';
+                if(password_register) password_register.type = 'password';
             }
         });
     }

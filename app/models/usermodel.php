@@ -127,7 +127,7 @@ class UserModel{
     static public function getUser($column,$value){
         try{
             $connectDb = new self();
-            $sql = "SELECT *, DATE_FORMAT(created_at,'%d/%m/%Y') AS created_at FROM users WHERE $column = :$column";
+            $sql  = "SELECT *, DATE_FORMAT(created_at,'%d/%m/%Y') AS created_at FROM users WHERE $column = :$column";
             $stmt = $connectDb->connection->prepare($sql);
             if(is_int($value)){
                 $stmt->bindParam(':'.$column,$value,PDO::PARAM_INT);
@@ -143,20 +143,38 @@ class UserModel{
         $stmt = null;
         return $response;
     }
+
+    /** Get number of users */
+    static public function countUsers(){
+        try{
+            $connectDb = new self();
+            $sql  = "SELECT COUNT(*) AS records FROM users";
+            $stmt = $connectDb->connection->prepare($sql);
+            $stmt->execute();
+        }catch(Exception $er){
+            return ['error' => true, 'message' => $er->getMessage()];
+        }
+        return $stmt->fetchObject();
+        $stmt = null;
+    }
     /** Get all users */
-    static public function getUsers(){
+    static public function getUsers($limit=null,$offset=null){
+        $limitoff = '';
+        if($limit !== null && $offset !== null){
+            $limitoff = ' LIMIT '.$limit.' OFFSET '.$offset;
+        }
         $connectDb = new self();
-        $sql = "SELECT *, DATE_FORMAT(created_at,'%d/%m/%Y') AS created_at FROM users ORDER BY id DESC";
+
+        $sql  = "SELECT * FROM (SELECT *, DATE_FORMAT(created_at,'%d/%m/%Y') AS created FROM users $limitoff) AS result ORDER BY id DESC";
         $stmt = $connectDb->connection->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_CLASS);
-        
         $stmt = null;
     }
     /** Save user */
     public function saveUser(){
         try{
-            $sql = 'INSERT INTO users (user_name,email,password,image) VALUES(:user_name,:email,:password,:image)';
+            $sql  = 'INSERT INTO users (user_name,email,password,image) VALUES(:user_name,:email,:password,:image)';
             $stmt = $this->connection->prepare($sql);
             $param_name   = $this->getUserName();
             $param_email  = $this->getEmail();
@@ -182,7 +200,7 @@ class UserModel{
             if($this->getCapabilities() =='subscriber' || $this->getCapabilities() == 'admin' ){
                 $add_sql = ',capabilities = :capabilities';
             }
-            $sql = "UPDATE users SET user_name = :user_name, email = :email, image = :image, password = :password {$add_sql} WHERE id = :id";
+            $sql  = "UPDATE users SET user_name = :user_name, email = :email, image = :image, password = :password {$add_sql} WHERE id = :id";
             $stmt = $this->connection->prepare($sql);
             $param_name   = $this->getUserName();
             $param_email  = $this->getEmail();
@@ -209,7 +227,7 @@ class UserModel{
     static public function deleteUser($id){
         try{     
             $connectDb = new self();     
-            $sql = 'DELETE FROM users WHERE id = :id';
+            $sql  = 'DELETE FROM users WHERE id = :id';
             $stmt = $connectDb->connection->prepare($sql);
             $stmt->bindParam("id",$id,PDO::PARAM_INT);
             $stmt->execute();

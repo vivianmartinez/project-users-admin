@@ -13,7 +13,11 @@
   <?php if($registered): ?>
     <div class="alert alert-success"><?=$message?></div>
   <?php endif; ?>
-  <h2>All users</h2>        
+  <h2>Users</h2>
+  <?php if(isset($_SESSION['error_pagination'])): 
+    DisplayError::displayErrors('error_pagination');
+    ResetSession::deleteSession('error_pagination');
+  endif;?>
   <table class="table table-dark table-hover align-middle overflow-scroll">
     <thead>
       <tr>
@@ -26,7 +30,7 @@
       </tr>
     </thead>
     <tbody>
-      <?php foreach($users as $user): ?>
+      <?php foreach($users_paginate as $user): ?>
       <tr class="table-row-<?=$user->id?>">
         <td class="table-value-pc">
           <div>
@@ -37,7 +41,7 @@
         <td class="table-value-nm"><?=$user->user_name   ?></td>
         <td class="table-value-em"><?=$user->email       ?></td>
         <td class="table-value-cp"><?=$user->capabilities?></td>
-        <td class="table-value-cd"><?=$user->created_at  ?></td>
+        <td class="table-value-cd"><?=$user->created     ?></td>
         <td class="table-value-st">
           <div class="btn-group">
             <a href="<?=url_base?>user/profile&id=<?=$user->id?>" <?= $is_admin || $_SESSION['user_logged']->id == $user->id ? 'class="btn btn-info"' : 'class="btn btn-secondary disabled"' ?>>
@@ -53,6 +57,12 @@
       <?php endforeach; ?>
     </tbody>
   </table>
+  <div class="d-flex align-items-center justify-content-end">
+    <div class="me-3">Page: <?=$page?></div>
+    <div class="me-3">Pages: <?=$pages?></div>
+    <a id="preview" href="<?=url_base?>user/management&page=<?=$preview < 1 ? 1 : $preview?>" class="btn btn-secondary me-2"><<</a>
+    <a id="next" href="<?=url_base?>user/management&page=<?=$next > $pages ? $pages : $next?>" class="btn btn-secondary">>></a>
+  </div>
 </div>
 
 <?php 
