@@ -1,31 +1,44 @@
 <?php
+  $action = 'management';
+  if(isset($_GET['method']) == 'search' && isset($_SESSION['search'])):
+    $action = 'search';
+  endif;
   $registered = false;
-  if(isset($_SESSION['register_success']) && !$_SESSION['register_success']['error'] ){
+  $error_pages = false;
+  print_r($error_pages);
+  if(isset($_SESSION['register_success']) && !$_SESSION['register_success']['error'] ):
+    //if user has recently registered show message 
     $registered = true;
     $message = $_SESSION['register_success']['message'];
     ResetSession::deleteSession('register_success');
-  }
+  endif;
   $loggedIn = CheckLoginStatus::isLoggedIn();
   if($loggedIn):
     $is_admin = CheckCapabilities::isAdmin();
 ?>
-<div class="container mb-5 py-5 h-auto content">
+<div class="container mb-5 py-5 mt-5 h-auto content">
   <?php if($registered): ?>
     <div class="alert alert-success"><?=$message?></div>
   <?php endif; ?>
-  <h2>Users</h2>
-  <?php if(isset($_SESSION['error_pagination'])): 
-    DisplayError::displayErrors('error_pagination');
-    ResetSession::deleteSession('error_pagination');
+  <h2 class="mt-5">Users</h2>
+  <?php if(isset($_SESSION['error_pagination'])):
+    // if there is an empty search result error or no users don´t show users table
+    if(isset($_SESSION['error_pagination']['empty']) || isset($_SESSION['error_pagination']['search']) 
+        || isset($_SESSION['error_pagination']['users'])):
+      $error_pages = true;
+    endif;
+    DisplayError::displayErrors('error_pagination'); // display errors
+    ResetSession::deleteSession('error_pagination'); // delete errors session
   endif;?>
-  <table class="table table-dark table-hover align-middle overflow-scroll">
+  <?php if(isset($error_pages) && !$error_pages):?>
+  <table class="table table-dark table-hover align-middle overflow-scroll mb-4">
     <thead>
       <tr>
         <th id="table-header-pc"></th>
         <th id="table-header-nm">User name</th>
         <th id="table-header-em">Email</th>
         <th id="table-header-cp">Capabilities</th>
-        <th id="table-header-cd">Create Date</th>
+        <th id="table-header-cd">Date update</th>
         <th id="table-header-st">Settings</th>
       </tr>
     </thead>
@@ -58,11 +71,16 @@
     </tbody>
   </table>
   <div class="d-flex align-items-center justify-content-end">
-    <div class="me-3">Page: <?=$page?></div>
-    <div class="me-3">Pages: <?=$pages?></div>
-    <a id="preview" href="<?=url_base?>user/management&page=<?=$preview < 1 ? 1 : $preview?>" class="btn btn-secondary me-2"><<</a>
-    <a id="next" href="<?=url_base?>user/management&page=<?=$next > $pages ? $pages : $next?>" class="btn btn-secondary">>></a>
+    <div class="me-3 fw-bold">Total Records: <?=$records?></div>
+    <div class="me-3 fw-bold">Total Pages: <?=$pages?></div>
+    <div class="me-3 fw-bold">Page: <?=isset($_GET['page']) ? $_GET['page'] : 1?></div>
+    
+    <a id="preview" href="<?=url_base?>user/<?=$action?>&page=1" class="btn btn-secondary me-2" data-bs-toggle="tooltip" title="first"><</a>
+    <a id="preview" href="<?=url_base?>user/<?=$action?>&page=<?=$preview?>" class="btn btn-secondary me-2" data-bs-toggle="tooltip" title="preview"><<</a>
+    <a id="next" href="<?=url_base?>user/<?=$action?>&page=<?=$next?>" class="btn btn-secondary me-2" data-bs-toggle="tooltip" title="next">>></a>
+    <a id="next" href="<?=url_base?>user/<?=$action?>&page=<?=$pages?>" class="btn btn-secondary me-2" data-bs-toggle="tooltip" title="last">></a>
   </div>
+<?php endif; ?>
 </div>
 
 <?php 

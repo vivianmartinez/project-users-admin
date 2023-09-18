@@ -1,6 +1,7 @@
 <?php
 
 require_once 'app/helpers/validate-user.php';
+require_once 'app/helpers/paginate-data.php';
 
 class UserController{
    /* Register user */
@@ -25,7 +26,11 @@ class UserController{
          $exists_email = UserModel::getUser('email',$email);
         
          if($exists_email){
-            $_SESSION['register_error']= ['Register'=>'The email already exists.'];
+            if(!isset($exists_email['error'])){
+               $_SESSION['register_error']= ['Register'=>'The email already exists.'];
+            }else{
+               $_SESSION['register_error']= ['Register'=>'Something bad happend, please contact to support'];
+            }
          }else{
             if(!$validate_user['error']){
                $name_file = 'avatar.png';
@@ -54,12 +59,14 @@ class UserController{
                   if(! is_array($response) && $response){
                      $_SESSION['register_success'] = ['error' => false, 'message' =>'¡The user has been created succesfully!'];
                      $search_user = UserModel::getUser('email',$email);
-                     if(!empty($search_user)){
+                     if(!empty($search_user) && !isset($search_user['error'])){
                         $_SESSION['user_logged'] = $search_user[0];
                         RedirectRoute::redirect('user/management');
+                     }else{
+                        $_SESSION['register_error']= ['Register'=>'Something bad happened, please contact to support.'];
                      }  
                   }else{
-                     $_SESSION['register_error']= ['Register'=>'Something bad happened, try again please.'];
+                     $_SESSION['register_error']= ['Register'=>'Something bad happened, please contact to support.'];
                   }
                }
             }else{
@@ -74,26 +81,29 @@ class UserController{
 
    /* show all users */
    public function management(){
-      $records = UserModel::countUsers();
-      $pages = ceil($records->records / 10); 
-      $page = 1;
-      $offset = $records->records - 10;
+      //delete search user if exists
+      ResetSession::deleteSession('search');
+      $all_users = UserModel::getUsers();
+      //total records
+      if(!isset($all_users['error'])){
+         $records = ! empty($all_users) ? count($all_users) : 0;
 
-      if(isset($_GET['page'])){
-         if($_GET['page'] <= $pages && $_GET['page'] > 0){
-            $offset = 0;
-            $page = intval($_GET['page']);
-            if( ($page * 10) < $records->records){
-               $offset = $records->records - ($page * 10);
+         if($records > 0){
+            // use helper paginate data (descending order)
+            $paginate_data  = PaginateData::paginateDataDsc($records,10);
+            $pages   = $paginate_data['pages'];
+            $preview = $paginate_data['preview'];
+            $next    = $paginate_data['next'];
+            $users_paginate = UserModel::getUsers($paginate_data['limit'],$paginate_data['offset']);
+            if(isset($users_paginate['error'])){
+               $_SESSION['error_pagination'] = ['users'=>'Something bad happend. Please contact to support.'];
             }
          }else{
-            $_SESSION['error_pagination'] = ['pages'=>'the page number doesn\'t exists.'];
+            $_SESSION['error_pagination'] = ['empty'=>'There aren\'t registered users.'];
          }
+      }else{
+         $_SESSION['error_pagination'] = ['users'=>'Something bad happend. Please contact to support.'];
       }
-      $limit   = ($page * 10) > $records->records ? $records->records % 10 : 10;
-      $preview = $page - 1;
-      $next    = $page + 1;
-      $users_paginate = UserModel::getUsers($limit,$offset);
       include 'views/users/management.php';
    }
 
@@ -101,25 +111,29 @@ class UserController{
    public function profile(){
       if(isset($_GET['id'])){
          $profile_user = UserModel::getUser('id',$_GET['id']);
+         if(isset($profile_user['error'])){
+            $_SESSION['error_profile'] = ['profile' => 'Something bad happend, please contact to support.'];
+         }
          include 'views/users/profile.php';
       }
    }
 
    /* Edit user */
    public function edit(){
-      $id_user  = isset($_GET['id']) ? $_GET['id'] : false;
-      $name     = isset($_POST['edit_name']) ? $_POST['edit_name'] : false;
-      $email    = isset($_POST['edit_email']) ? $_POST['edit_email'] : false;
-      $lastPassword = isset($_POST['last_password']) ? $_POST['last_password'] : false;
-      $newPassword = isset($_POST['new_password']) ? $_POST['new_password'] : false;
-      $capabilitie  = isset($_POST['edit_capabilitie']) ? $_POST['edit_capabilitie'] : false;
-      $picture  = isset($_FILES['edit_image']) ? $_FILES['edit_image'] : false;
+      $id_user       = isset($_GET['id']) ? $_GET['id'] : false;
+      $name          = isset($_POST['edit_name']) ? $_POST['edit_name'] : false;
+      $email         = isset($_POST['edit_email']) ? $_POST['edit_email'] : false;
+      $lastPassword  = isset($_POST['last_password']) ? $_POST['last_password'] : false;
+      $newPassword   = isset($_POST['new_password']) ? $_POST['new_password'] : false;
+      $capabilitie   = isset($_POST['edit_capabilitie']) ? $_POST['edit_capabilitie'] : false;
+      $picture       = isset($_FILES['edit_image']) ? $_FILES['edit_image'] : false;
       
       $validate_user = ValidateUser::validateRequiredFields($name,$email);
       
       if(!$validate_user['error'] && $id_user){
          $user_edit = UserModel::getUser('id',$id_user);
-         if(!empty($user_edit[0])){
+         
+         if(!empty($user_edit[0]) && !isset($user_edit['error'])){
             $user = new UserModel();
             $user->setUserName($name);
             $user->setEmail($email);
@@ -166,6 +180,8 @@ class UserController{
                   }
                }
             }
+         }else{
+            $_SESSION['edit_error'] = ['edit'=>'Something bad happend. please contact to support.'];
          }
       }else{
          $_SESSION['edit_error'] = $validate_user['content'];
@@ -173,12 +189,34 @@ class UserController{
       RedirectRoute::redirect('user/profile&id='.$_GET['id']);
    }
 
-    /* Delete user */
+   /** search users */
+   public function search(){
 
-    public function delete(){
-      if(isset($_POST['delete'])){
-         print_r($_POST['delete']);
+      if(isset($_POST['search_user']) && $_POST['search_user'] != '' ){
+         $_SESSION['search'] = [ 'pattern' => $_POST['search_user']];
       }
-    }
 
+      if(isset($_SESSION['search'])){
+         $users_result = UserModel::searchUserPattern($_SESSION['search']['pattern']);
+         $records = $users_result ? count($users_result) : 0;
+         if($records > 0){
+            // use helper paginate data (descending order)
+            $paginate_data  = PaginateData::paginateDataDsc($records,10);
+            $pages   = $paginate_data['pages'];
+            $preview = $paginate_data['preview'];
+            $next    = $paginate_data['next'];
+            $limit   = $paginate_data['limit'];
+            $offset  = $paginate_data['offset'];
+            $users_paginate = UserModel::searchUserPattern($_SESSION['search']['pattern'],$limit,$offset);
+            if(isset($users_paginate['error'])){
+               $_SESSION['error_pagination'] = ['search'=>'Something bad happend. Please contact to support.'];
+            }
+         }else{
+            $_SESSION['error_pagination'] = ['search'=>'There isn\'t search result.'];
+         }         
+      }else{
+         $_SESSION['error_pagination'] = ['search'=>'There isn\'t search result.'];
+      }
+      include 'views/users/management.php';
+   }
 }

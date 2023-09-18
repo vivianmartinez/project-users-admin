@@ -3,7 +3,6 @@ window.addEventListener('load',()=>{
     const icon = document.querySelectorAll('.eye-password');
     if(icon){
         icon.forEach((item)=> item.addEventListener('click',(e)=>{
-
             const password_login = document.getElementById('login_password');
             const password_register = document.getElementById('register_password');
             const password_profile_last = document.getElementById('last_password');
@@ -96,5 +95,11 @@ window.addEventListener('load',()=>{
                 preview.src = route_img;
             });
         }
-    }
+    }    
+
+    //Tooltips initialized 
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
 });

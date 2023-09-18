@@ -139,7 +139,6 @@ class UserModel{
         }catch(Exception $er){
             return ['error' => true, 'message' => $er->getMessage()];
         }
-        
         $stmt = null;
         return $response;
     }
@@ -157,17 +156,21 @@ class UserModel{
         return $stmt->fetchObject();
         $stmt = null;
     }
-    /** Get all users */
+    /** Get all users descending order*/
     static public function getUsers($limit=null,$offset=null){
         $limitoff = '';
         if($limit !== null && $offset !== null){
             $limitoff = ' LIMIT '.$limit.' OFFSET '.$offset;
         }
-        $connectDb = new self();
-
-        $sql  = "SELECT * FROM (SELECT *, DATE_FORMAT(created_at,'%d/%m/%Y') AS created FROM users $limitoff) AS result ORDER BY id DESC";
-        $stmt = $connectDb->connection->prepare($sql);
-        $stmt->execute();
+        try{
+            $connectDb = new self();
+            $sql  = "SELECT * FROM (SELECT *, DATE_FORMAT(created_at,'%d/%m/%Y') AS created FROM users $limitoff) AS result ORDER BY id DESC";
+            $stmt = $connectDb->connection->prepare($sql);
+            $stmt->execute();
+        }catch(Exception $er){
+            return ['error' => true, 'message' => $er->getMessage()];
+        }
+        
         return $stmt->fetchAll(PDO::FETCH_CLASS);
         $stmt = null;
     }
@@ -235,6 +238,27 @@ class UserModel{
         }catch(Exception $er){
             return ['error' => true, 'message' => $er->getMessage()];
         }
+        return $stmt;
+        $stmt = null;
+    }
+    /** Search user for specified pattern */
+    static public function searchUserPattern($pattern,$limit=null,$offset=null){
+        $limitoff = '';
+        if($limit !== null && $offset !== null){
+            $limitoff = 'LIMIT '.$limit.' OFFSET '.$offset;
+        }
+        try{     
+            $connectDb = new self(); 
+            $sql  = "SELECT * FROM(SELECT *, DATE_FORMAT(created_at,'%d/%m/%Y') AS created FROM users WHERE user_name LIKE CONCAT('%',:user_name,'%') OR email LIKE CONCAT('%',:email,'%') $limitoff) AS result ORDER BY created_at DESC";
+            $stmt = $connectDb->connection->prepare($sql);
+            $stmt->bindParam(":user_name",$pattern,PDO::PARAM_STR);
+            $stmt->bindParam(":email",$pattern,PDO::PARAM_STR);
+            $stmt->execute();
 
+        }catch(Exception $er){
+            return ['error' => true, 'message' => $er->getMessage()];
+        }
+        return $stmt->fetchAll(PDO::FETCH_CLASS);
+        $stmt = null;
     }
 }

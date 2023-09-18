@@ -22,7 +22,7 @@ class UserAjax{
         echo json_encode($response);
     }
 }
-
+/** data delete user */
 if(isset($_POST['id_user_delete'])){
     $delete = new UserAjax();
     $delete->id_user = $_POST['id_user_delete'];

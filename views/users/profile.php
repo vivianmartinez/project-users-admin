@@ -5,11 +5,20 @@
         // if is not logged in
         RedirectRoute::redirect('login');
         // if not exists id user
-    elseif(!isset($profile_user) || empty($profile_user)):     
-?>
+    elseif(isset($_SESSION['error_profile'])): ?>
+        <div class="container-fluid" style="height: 100vh;">
+            <div class=" text-danger container col-md-4 py-5">
+    <?php
+            DisplayError::displayErrors('error_profile');
+            ResetSession::deleteSession('error_profile');
+    ?>
+            </div>
+        </div>
+<?php elseif(!isset($profile_user) || empty($profile_user)): ?>
     <div class="container-fluid" style="height: 100vh;">
         <div class=" text-danger container col-md-4 py-5">
-            <strong>Error: The user doesn't exist... Make sure the Id is correct.</strong>
+            <div class="mb-4"><strong>Error: The user doesn't exist... Make sure the Id is correct.</strong></div>
+            <a href="<?=url_base?>user/profile&id=<?=$_SESSION['user_logged']->id?>" class="btn btn-warning">Back</a>
         </div>
     </div>
 <?php elseif($_SESSION['user_logged']->id != $_GET['id'] && !$is_admin ): ?>
@@ -20,11 +29,11 @@
         </div>
     </div>
 <?php else: ?>
-    <div class="container-fluid h-auto">
+    <div class="container-fluid h-auto mt-5 pt-3">
         <div class="container py-5 col-sm-12 col-md-6 col-lg-6 col-xl-6" style="min-height: 100vh;">
             <form id="form-profile" class="mt-5 mb-4" action="<?=url_base?>user/edit&id=<?=$profile_user[0]->id?>" method="POST" enctype="multipart/form-data">
                 <div class="d-md-flex">
-                    <div class="d-block text-center">
+                    <div class="d-block text-center me-4">
                         <img src="<?=url_base?>storage/images/<?=$profile_user[0]->image?>" class="rounded-circle mb-2 preview" alt="avatar" width="180px">
                         <div class="small text-muted">JPG, JPEG or PNG</div>
                         <div class="small text-muted">No longer than 1MG</div>

@@ -5,13 +5,17 @@ svg.svg-inline--fa.fa-house-user {
     font-size: 20px;
 }
 svg.svg-inline--fa {
-    filter: invert(75%) sepia(71%) saturate(3097%) hue-rotate(129deg) brightness(94%) contrast(87%);
+    filter: invert(77%) sepia(90%) saturate(1371%) hue-rotate(119deg) brightness(83%) contrast(88%);
 }
-
-.navbar-nav li a:hover{
+.nav li a.nav-link{
+    color: #a4a4a4;
+}
+.nav li a.nav-link:hover{
     color: #11c9c7;
 }
-
+ul.dropdown-menu li a.dropdown-item:hover{
+    background-color: #69c7c561;
+}
 button.btn.btn-custom{
     background-color: #11c9c7;
     color: white;
