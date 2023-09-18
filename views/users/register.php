@@ -23,7 +23,7 @@
                     <label for="register_password" class="form-label">Password</label>
                     <input type="password" class="form-control" id="register_password" name="register_password">
                 </div>
-                <div id="eye_password" class="eye-password eye-reg">
+                <div class="eye-password eye-top">
 					<i class="fa-regular fa-eye-slash"></i>
 				</div>
             </div>

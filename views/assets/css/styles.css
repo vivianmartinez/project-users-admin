@@ -34,8 +34,12 @@ div.input-password .eye-password{
     font-size: 12px;
     cursor: pointer;
 }
-div.input-password .eye-reg{
+div.input-password .eye-top{
     top: 70%;
+}
+.disabled-eye{
+    pointer-events: none;
+    filter: invert(78%) sepia(48%) saturate(5%) hue-rotate(6deg) brightness(100%) contrast(103%);
 }
 
 .content{

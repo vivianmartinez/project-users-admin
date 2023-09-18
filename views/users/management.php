@@ -5,8 +5,8 @@
     $message = $_SESSION['register_success']['message'];
     ResetSession::deleteSession('register_success');
   }
-  $logged_in = CheckLoginStatus::isLoggedIn();
-  if($logged_in):
+  $loggedIn = CheckLoginStatus::isLoggedIn();
+  if($loggedIn):
     $is_admin = CheckCapabilities::isAdmin();
 ?>
 <div class="container mb-5 py-5 h-auto content">
