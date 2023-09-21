@@ -61,7 +61,11 @@
                         </div>
                         <?php endif; ?>
                         <div class="mb-3">
+                            <?php if($is_admin): ?>
+                            <label class="form-label">¿Do you want to reset the password?</label>
+                            <?php else: ?>
                             <label class="form-label">¿Do you want to change the password?</label>
+                            <?php endif; ?>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="change_password" id="flexRadio1" value="yes">
                                 <label class="form-check-label" for="flexRadio1">Yes</label>
@@ -71,15 +75,17 @@
                                 <label class="form-check-label" for="flexRadio2">No</label>
                             </div>
                         </div>
-                        <div class="input-password">
+                        <?php if(! $is_admin): ?>
+                        <div class="input-password"> 
                             <div class="mb-3">
                                 <label for="last_password" class="form-label">Last Password</label>
                                 <input type="password" class="form-control" id="last_password" name="last_password" disabled required>
                             </div>
                             <div id="eye-last-password" class="eye-password eye-top disabled-eye">
                                 <i class="fa-regular fa-eye-slash"></i>
-                            </div>
+                            </div> 
                         </div>
+                        <?php endif; ?>
                         <div class="input-password">
                             <div class="mb-3">
                                 <label for="new_password" class="form-label">New Password</label>

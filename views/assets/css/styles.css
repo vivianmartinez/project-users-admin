@@ -7,6 +7,9 @@ svg.svg-inline--fa.fa-house-user {
 svg.svg-inline--fa {
     filter: invert(77%) sepia(90%) saturate(1371%) hue-rotate(119deg) brightness(83%) contrast(88%);
 }
+.text-welcome{
+    color: #11c9c7;
+}
 .nav li a.nav-link{
     color: #a4a4a4;
 }

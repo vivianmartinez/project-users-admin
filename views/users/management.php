@@ -47,7 +47,8 @@
       <tr class="table-row-<?=$user->id?>">
         <td class="table-value-pc">
           <div>
-            <img src="<?=url_base?>storage/images/<?=$user->image?>" class="rounded img-fluid img-thumbnail" 
+            <img 
+            src="<?=url_base?>storage/images/<?= !file_exists('storage/images/'.$user->image) ? 'avatar.png' :$user->image?>" class="rounded img-fluid img-thumbnail" 
             alt="<?=$user->image?>" width="50px">
           </div>
         </td>

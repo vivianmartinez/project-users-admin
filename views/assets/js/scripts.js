@@ -35,18 +35,20 @@ window.addEventListener('load',()=>{
     if(change_password){
         change_password.forEach((item)=>item.addEventListener('click',()=>{
             const icon_eye_last = document.getElementById('eye-last-password');
-            const icon_eye_new = document.getElementById('eye-new-password');
+            const icon_eye_new  = document.getElementById('eye-new-password');
+            const last_password = document.getElementById('last_password');
+            const new_password  = document.getElementById('new_password');
             if(item.value == 'yes'){
-                last_password.removeAttribute('disabled');
-                new_password.removeAttribute('disabled');
-                icon_eye_last.classList.remove('disabled-eye');
-                icon_eye_new.classList.remove('disabled-eye');
+                if(last_password) last_password.removeAttribute('disabled');
+                if(new_password) new_password.removeAttribute('disabled');
+                if(icon_eye_last) icon_eye_last.classList.remove('disabled-eye');
+                if(icon_eye_new) icon_eye_new.classList.remove('disabled-eye');
             }
             if(item.value == 'no'){
-                last_password.setAttribute("disabled",true);
-                new_password.setAttribute("disabled",true);
-                icon_eye_last.classList.add('disabled-eye');
-                icon_eye_new.classList.add('disabled-eye');
+                if(last_password)  last_password.setAttribute("disabled",true);
+                if(new_password)  new_password.setAttribute("disabled",true);
+                if(icon_eye_last) icon_eye_last.classList.add('disabled-eye');
+                if(icon_eye_new) icon_eye_new.classList.add('disabled-eye');
             }
         }));
     }

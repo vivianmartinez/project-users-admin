@@ -6,20 +6,26 @@ class ValidateUser{
     static public function validateRequiredFields($name=null,$email=null,$password = null){
         $error = [];
         if($name !== null){
-            if(!$name || !preg_match('/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/',$name) ){
-            $error['name'] = 'the name is required and can\'t contain invalid characters.';
+            if(!$name){
+                $error['name'] = 'the name is required';
+            }
+            if(!preg_match('/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/',$name) ){
+                $error['name'] = 'the name can\'t contain invalid characters.';
             }
         }
         if($email !== null){
+            if(!$email){
+                $error['email'] = 'the email is required';
+            }
             if(!$email || !filter_var($email,FILTER_VALIDATE_EMAIL) ){
-                $error['email'] = 'the email is required and must have a valid format.';
+                $error['email'] = 'the email must have a valid format.';
             }
         }
         if($password !== null){
             if(!$password){
                 $error['password'] = 'The password is required.';
-            }else if(!preg_match('/^[a-zA-Z0-9]{8,}+$/',$password)){
-                $error['password'] = 'The password can\'t contain invalid characters and minimum length: 8 characters.';
+            }else if(!preg_match('/^[a-zA-Z0-9*.!@#$%&]{8,}+$/',$password)){
+                $error['password'] = 'The password can\'t contain some invalid characters and minimum length: 8 characters.';
             }
         }
         if(!empty($error)){

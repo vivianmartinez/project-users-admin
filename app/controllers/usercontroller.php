@@ -34,19 +34,23 @@ class UserController{
          }else{
             if(!$validate_user['error']){
                $name_file = 'avatar.png';
-               if(is_dir('storage/images')){
-                  if($picture['name']){
-                     /* use helper validate image (validate size and type) */
-                     $validate_image = ValidateUser::validateImage($picture);
-                     if(!$validate_image['error']){
-                        $name_file = $_FILES['register_image']['name'];
-                        $tmp_name  = $_FILES['register_image']['tmp_name'];
-                        move_uploaded_file($tmp_name,'storage/images/'.$name_file);
-                     }else{
-                        $_SESSION['register_error'] =  $validate_image['content'];
-                     }
+               
+               if(!is_dir('storage/images')){
+                  mkdir('storage/images',0777);
+               }
+               if(isset($picture['tmp_name']) && !empty($picture['tmp_name'])){
+                  $rand_number = mt_rand(100,9999);
+                  /* use helper validate image (validate size and type) */
+                  $validate_image = ValidateUser::validateImage($picture);
+                  if(!$validate_image['error']){
+                     $name_file = $rand_number.'-'.$_FILES['register_image']['name'];
+                     $tmp_name  = $_FILES['register_image']['tmp_name'];
+                     move_uploaded_file($tmp_name,'storage/images/'.$name_file);
+                  }else{
+                     $_SESSION['register_error'] =  $validate_image['content'];
                   }
                }
+               
                if(!isset($_SESSION['register_error']) && empty($_SESSION['register_error'])){
                   $password_hash = password_hash($password,PASSWORD_BCRYPT,['cost'=>4]);
                   $user = new UserModel();
@@ -110,6 +114,10 @@ class UserController{
          $profile_user = UserModel::getUser('id',$_GET['id']);
          if(isset($profile_user['error'])){
             $_SESSION['error_profile'] = ['profile' => 'Something bad happend, please contact to support.'];
+         }else{
+            if(!file_exists('storage/images/'.$profile_user[0]->image)){
+               $profile_user[0]->image = 'avatar.png';
+            }
          }
          include 'views/users/profile.php';
       }
@@ -136,25 +144,32 @@ class UserController{
 
             $name_file = $user_edit[0]->image;
 
-            if(is_dir('storage/images')){
-               if($picture['name']){
-                  $name_file = $_FILES['edit_image']['name'];
-                  /* use helper validate image (validate size and type) */
-                  $validate_image = ValidateUser::validateImage($picture);
-                  if(!$validate_image['error']){
-                     $tmp_name  = $_FILES['edit_image']['tmp_name'];
-                     move_uploaded_file($tmp_name,'storage/images/'.$name_file);
-                  }else{
-                     $_SESSION['edit_error'] = $validate_image['content'];
-                  }
+            if(isset($picture['tmp_name']) && !empty($picture['tmp_name'])){
+               $rand_number = mt_rand(100,9999);
+               $name_file = $rand_number.'-'.$_FILES['edit_image']['name'];
+               /* use helper validate image (validate size and type) */
+               $validate_image = ValidateUser::validateImage($picture);
+               if(!$validate_image['error']){
+                  $tmp_name  = $_FILES['edit_image']['tmp_name'];
+                  move_uploaded_file($tmp_name,'storage/images/'.$name_file);
+               }else{
+                  $_SESSION['edit_error'] = $validate_image['content'];
                }
             }
+            
             if(!isset( $_SESSION['edit_error'])){
                $user->setImage($name_file);
                $password_hash = $user_edit[0]->password;
                /** if user decided change password */
                if(isset($_POST['change_password']) && $_POST['change_password'] == 'yes'){
-                  $verify_password = password_verify($lastPassword,$user_edit[0]->password);
+                  $verify_password = true;
+                  if($_SESSION['user_logged']->capabilities != 'admin'){
+                     $verify_password = password_verify($lastPassword,$user_edit[0]->password);
+                     if(!$verify_password){
+                        $_SESSION['edit_error'] = ['password'=>'Wrong last password. Try again, please.'];
+                     }
+                  }
+                  
                   if($verify_password){
                      $validate_password = ValidateUser::validateRequiredFields(null,null,$newPassword);
                      if(!$validate_password['error']){
@@ -162,8 +177,6 @@ class UserController{
                      }else{
                         $_SESSION['edit_error'] = $validate_password['content'];
                      } 
-                  }else{
-                     $_SESSION['edit_error'] = ['password'=>'Wrong last password. Try again, please.'];
                   }
                }
                /**if there isn't error update success */
@@ -172,6 +185,12 @@ class UserController{
                   $response = $user->updateUser($id_user);
                   if($response){
                      $_SESSION['edit_success'] = ['error' => false, 'message' => '¡The user has been updated succesfully!'];
+
+                     if($_SESSION['user_logged']->id == intval($id_user)){
+                        $update_current = UserModel::getUser('id',$id_user);
+                        
+                        $_SESSION['user_logged'] = $update_current[0];
+                     }
                   }
                }
             }

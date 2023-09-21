@@ -27,6 +27,9 @@ class LoginController{
                     $verify_password = password_verify($password,$search_user[0]->password);
                     if($verify_password){
                         $_SESSION['user_logged'] = $search_user[0];
+                        if(!file_exists('storage/images/'.$_SESSION['user_logged']->image)){
+                            $_SESSION['user_logged']->image = 'avatar.png';
+                        }
                         RedirectRoute::redirect('user/management');
                     }else{
                         $_SESSION['login_error'] = ['password'=>'Wrong password.'];
