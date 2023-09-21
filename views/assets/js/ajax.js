@@ -29,7 +29,6 @@ window.addEventListener('load',()=>{
                             body: dataform
                         }).then(response => response.json())
                         .then(json => {
-                            console.log(json);
                             if(!json.error){
                                 //delete user row on table
                                 row_user.parentNode.removeChild(row_user);
@@ -44,7 +43,6 @@ window.addEventListener('load',()=>{
                     alert('Wrong user id');
                 }
             }
-
         }));
     }
 });

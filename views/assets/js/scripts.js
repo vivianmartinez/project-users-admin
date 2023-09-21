@@ -36,13 +36,13 @@ window.addEventListener('load',()=>{
         change_password.forEach((item)=>item.addEventListener('click',()=>{
             const icon_eye_last = document.getElementById('eye-last-password');
             const icon_eye_new = document.getElementById('eye-new-password');
-            if(item.value == 'true'){
+            if(item.value == 'yes'){
                 last_password.removeAttribute('disabled');
                 new_password.removeAttribute('disabled');
                 icon_eye_last.classList.remove('disabled-eye');
                 icon_eye_new.classList.remove('disabled-eye');
             }
-            if(item.value == 'false'){
+            if(item.value == 'no'){
                 last_password.setAttribute("disabled",true);
                 new_password.setAttribute("disabled",true);
                 icon_eye_last.classList.add('disabled-eye');

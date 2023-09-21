@@ -5,7 +5,6 @@
 	endif;
 	$isLogged = CheckLoginStatus::isLoggedIn();
 ?>
-
 <?php if(!$isLogged): ?>
 <div class="container-fluid mt-5 py-5 col-sm-12 col-md-5 col-lg-3 col-xl-3 h-auto content">
 	<form action="<?=url_base?>login/signin" method="POST" class="py-4 px-4 mb-4 bg-light mt-5">
@@ -13,7 +12,7 @@
 			<label for="Email" class="form-label">Email:</label>
 			<div class="input-group">
 				<span class="input-group-text"><i class="fas fa-envelope"></i></span>
-				<input type="email" class="form-control" id="Email" placeholder="Enter email" name="login_email" value="<?= $old_data['email']?>">
+				<input type="email" class="form-control" id="Email" placeholder="Enter email" name="login_email" value="<?= $old_data['email']?>" required>
 			</div>
 		</div>
 		<div class="mb-3">
@@ -21,7 +20,7 @@
 			<div class="input-password">
 				<div class="input-group">
 					<span class="input-group-text"><i class="fas fa-lock"></i></span>
-					<input id="login_password" type="password" class="form-control" id="Password" placeholder="Enter password" name="login_password">
+					<input id="login_password" type="password" class="form-control" id="Password" placeholder="Enter password" name="login_password" required>
 				</div>
 				<div class="eye-password">
 					<i class="fa-regular fa-eye-slash"></i>

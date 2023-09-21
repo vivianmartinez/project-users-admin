@@ -1,5 +1,5 @@
 <?php
-
+/**require helpers */
 require_once 'app/helpers/validate-user.php';
 require_once 'app/helpers/paginate-data.php';
 
@@ -56,7 +56,7 @@ class UserController{
                   $user->setImage($name_file);
                   $response = $user->saveUser();
                  
-                  if(! is_array($response) && $response){
+                  if($response){
                      $_SESSION['register_success'] = ['error' => false, 'message' =>'¡The user has been created succesfully!'];
                      $search_user = UserModel::getUser('email',$email);
                      if(!empty($search_user) && !isset($search_user['error'])){
@@ -78,16 +78,14 @@ class UserController{
          RedirectRoute::redirect('user/register');
       }
    }
-
    /* show all users */
    public function management(){
-      //delete search user if exists
+      //delete search if exists
       ResetSession::deleteSession('search');
       $all_users = UserModel::getUsers();
       //total records
       if(!isset($all_users['error'])){
          $records = ! empty($all_users) ? count($all_users) : 0;
-
          if($records > 0){
             // use helper paginate data (descending order)
             $paginate_data  = PaginateData::paginateDataDsc($records,10);
@@ -106,7 +104,6 @@ class UserController{
       }
       include 'views/users/management.php';
    }
-
     /* User profile */
    public function profile(){
       if(isset($_GET['id'])){
@@ -117,7 +114,6 @@ class UserController{
          include 'views/users/profile.php';
       }
    }
-
    /* Edit user */
    public function edit(){
       $id_user       = isset($_GET['id']) ? $_GET['id'] : false;
@@ -127,9 +123,8 @@ class UserController{
       $newPassword   = isset($_POST['new_password']) ? $_POST['new_password'] : false;
       $capabilitie   = isset($_POST['edit_capabilitie']) ? $_POST['edit_capabilitie'] : false;
       $picture       = isset($_FILES['edit_image']) ? $_FILES['edit_image'] : false;
-      
+      /**validate name - email */
       $validate_user = ValidateUser::validateRequiredFields($name,$email);
-      
       if(!$validate_user['error'] && $id_user){
          $user_edit = UserModel::getUser('id',$id_user);
          
@@ -157,25 +152,25 @@ class UserController{
             if(!isset( $_SESSION['edit_error'])){
                $user->setImage($name_file);
                $password_hash = $user_edit[0]->password;
-               
-               if(isset($_POST['change_password']) && $_POST['change_password'] == 'true'){
+               /** if user decided change password */
+               if(isset($_POST['change_password']) && $_POST['change_password'] == 'yes'){
                   $verify_password = password_verify($lastPassword,$user_edit[0]->password);
                   if($verify_password){
-                     if(!$newPassword && !preg_match('/^[a-zA-Z0-9]+$/',$newPassword)){
-                        $_SESSION['edit_error'] = ['password'=>'The new password is required and can\'t contain invalid characters.'];
+                     $validate_password = ValidateUser::validateRequiredFields(null,null,$newPassword);
+                     if(!$validate_password['error']){
+                        $password_hash = password_hash($newPassword,PASSWORD_BCRYPT,['cost'=> 4]);
                      }else{
-                        $password_hash = password_hash($newPassword,PASSWORD_BCRYPT,['cost'=>4]);
+                        $_SESSION['edit_error'] = $validate_password['content'];
                      } 
                   }else{
                      $_SESSION['edit_error'] = ['password'=>'Wrong last password. Try again, please.'];
                   }
                }
-               
+               /**if there isn't error update success */
                if(!isset( $_SESSION['edit_error'])){
                   $user->setPassword($password_hash);
                   $response = $user->updateUser($id_user);
-
-                  if($response && is_object($response)){
+                  if($response){
                      $_SESSION['edit_success'] = ['error' => false, 'message' => '¡The user has been updated succesfully!'];
                   }
                }

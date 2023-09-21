@@ -1,6 +1,9 @@
 <?php
 
-class Connection{
+require_once 'info-dbase.php';
+// InfoDbase class contains data base information
+
+class Connection extends InfoDbase{
 
     private $host;
     private $dbUser;
@@ -9,10 +12,11 @@ class Connection{
 
     private function __construct()
     {
-        $this->host         = "localhost";
-        $this->dbUser       = "root";
-        $this->dbName       = "curso_php";
-        $this->dbPassword   = "RcVsD7mxfIUNCP4c";
+        parent::__construct();
+        $this->host         = $this->infoDB['host']; 
+        $this->dbUser       = $this->infoDB['dbuser'];
+        $this->dbName       = $this->infoDB['dbname'];
+        $this->dbPassword   = $this->infoDB['dbpassword'];
     }
 
     static public function connect(){

@@ -63,18 +63,18 @@
                         <div class="mb-3">
                             <label class="form-label">¿Do you want to change the password?</label>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="change_password" id="flexRadio1" value="true">
+                                <input class="form-check-input" type="radio" name="change_password" id="flexRadio1" value="yes">
                                 <label class="form-check-label" for="flexRadio1">Yes</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="change_password" id="flexRadio2" checked value="false">
+                                <input class="form-check-input" type="radio" name="change_password" id="flexRadio2" checked value="no">
                                 <label class="form-check-label" for="flexRadio2">No</label>
                             </div>
                         </div>
                         <div class="input-password">
                             <div class="mb-3">
                                 <label for="last_password" class="form-label">Last Password</label>
-                                <input type="password" class="form-control" id="last_password" name="last_password" disabled>
+                                <input type="password" class="form-control" id="last_password" name="last_password" disabled required>
                             </div>
                             <div id="eye-last-password" class="eye-password eye-top disabled-eye">
                                 <i class="fa-regular fa-eye-slash"></i>
@@ -83,7 +83,7 @@
                         <div class="input-password">
                             <div class="mb-3">
                                 <label for="new_password" class="form-label">New Password</label>
-                                <input type="password" class="form-control" id="new_password" name="new_password" disabled>
+                                <input type="password" class="form-control" id="new_password" name="new_password" disabled required>
                             </div>
                             <div id="eye-new-password" class="eye-password eye-top disabled-eye">
                                 <i class="fa-regular fa-eye-slash"></i>

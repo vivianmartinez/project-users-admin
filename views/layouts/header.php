@@ -5,17 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Administrator</title>
     <link href="<?=url_base?>views/assets/css/styles.css" rel="stylesheet" >
+    <!--Bootstrap css -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
-
-	<!--Latest compiled JavaScript -->
+	<!--Bootstrap JavaScript -->
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-
-	<!--Latest compiled Fontawesome	-->
+	<!--Fontawesome	-->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js" crossorigin="anonymous"></script>
 
-	<!--jquery -->
-	<script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="<?=url_base?>views/assets/js/scripts.js"></script>
 </head>
 <body>
 <header class="py-4 border-bottom bg-light fixed-top">

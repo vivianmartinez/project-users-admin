@@ -8,14 +8,15 @@ class UserAjax{
 
     public function deleteUser(){
         $id = $this->id_user;
+        //search user - if exists delete
         $search = UserModel::getUser('id',$id);
         if(count($search) > 0 && !empty($search[0])){
             $delete_user = UserModel::deleteUser($search[0]->id);
-            if(empty($delete_user)){
-                $response = ['error'=>false,'deleted'=> true];
+            if($delete_user){
+                $response = ['error'=>false,'deleted'=> $delete_user];
             }else{
                 $response = ['error' => true];
-            }
+            }  
         }else{
             $response = ['error' => true];
         }

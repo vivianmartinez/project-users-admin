@@ -143,19 +143,6 @@ class UserModel{
         return $response;
     }
 
-    /** Get number of users */
-    static public function countUsers(){
-        try{
-            $connectDb = new self();
-            $sql  = "SELECT COUNT(*) AS records FROM users";
-            $stmt = $connectDb->connection->prepare($sql);
-            $stmt->execute();
-        }catch(Exception $er){
-            return ['error' => true, 'message' => $er->getMessage()];
-        }
-        return $stmt->fetchObject();
-        $stmt = null;
-    }
     /** Get all users descending order*/
     static public function getUsers($limit=null,$offset=null){
         $limitoff = '';
@@ -190,7 +177,7 @@ class UserModel{
             $stmt->execute();
 
         }catch(exception $er){
-            return ['error' => true, 'message' => $er->getMessage()];
+            return $er->getMessage();
         }
         return $stmt;
         
@@ -220,7 +207,7 @@ class UserModel{
             }
             $stmt->execute();
         }catch(exception $er){
-            return ['error' => true, 'message' => $er->getMessage()];
+            return $er->getMessage();
         }
         return $stmt;
         $stmt = null;
@@ -236,7 +223,7 @@ class UserModel{
             $stmt->execute();
 
         }catch(Exception $er){
-            return ['error' => true, 'message' => $er->getMessage()];
+            return $er->getMessage();
         }
         return $stmt;
         $stmt = null;
