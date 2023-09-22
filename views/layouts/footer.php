@@ -9,7 +9,6 @@
           class="btn btn-link btn-floating btn-lg text-dark m-1"
           href="mailto:martinezpvivi@gmail.com"
           role="button"
-          data-mdb-ripple-color="dark"
           ><i class="fab fa-google"></i
         ></a>
         <!-- Linkedin -->
@@ -17,7 +16,7 @@
           class="btn btn-link btn-floating btn-lg text-dark m-1"
           href="https://www.linkedin.com/in/vivian-mart%C3%ADnez-920803277"
           role="button"
-          data-mdb-ripple-color="dark"
+          target="_blank"
           ><i class="fab fa-linkedin"></i
         ></a>
         <!-- Github -->
@@ -25,7 +24,7 @@
           class="btn btn-link btn-floating btn-lg text-dark m-1"
           href="https://github.com/vivianmartinez"
           role="button"
-          data-mdb-ripple-color="dark"
+          target="_blank"
           ><i class="fab fa-github"></i
         ></a>
       </section>

@@ -26,7 +26,7 @@ class UserController{
          $exists_email = UserModel::getUser('email',$email);
         
          if($exists_email){
-            if(!isset($exists_email['error'])){
+            if($exists_email && !isset($exists_email['error'])){
                $_SESSION['register_error']= ['Register'=>'The email already exists.'];
             }else{
                $_SESSION['register_error']= ['Register'=>'Something bad happend, please contact to support'];
@@ -63,7 +63,7 @@ class UserController{
                   if($response){
                      $_SESSION['register_success'] = ['error' => false, 'message' =>'¡The user has been created succesfully!'];
                      $search_user = UserModel::getUser('email',$email);
-                     if(!empty($search_user) && !isset($search_user['error'])){
+                     if($search_user && !empty($search_user) && !isset($search_user['error'])){
                         $_SESSION['user_logged'] = $search_user[0];
                         RedirectRoute::redirect('user/management');
                      }else{
@@ -87,8 +87,7 @@ class UserController{
       //delete search if exists
       ResetSession::deleteSession('search');
       $all_users = UserModel::getUsers();
-      //total records
-      if(!isset($all_users['error'])){
+      if( $all_users && !isset($all_users['error']) ){
          $records = ! empty($all_users) ? count($all_users) : 0;
          if($records > 0){
             // use helper paginate data (descending order)
@@ -112,15 +111,17 @@ class UserController{
    public function profile(){
       if(isset($_GET['id'])){
          $profile_user = UserModel::getUser('id',$_GET['id']);
-         if(isset($profile_user['error'])){
-            $_SESSION['error_profile'] = ['profile' => 'Something bad happend, please contact to support.'];
-         }else{
+         if($profile_user && is_array($profile_user)){
             if(!file_exists('storage/images/'.$profile_user[0]->image)){
                $profile_user[0]->image = 'avatar.png';
             }
+         }elseif(isset($profile_user['error'])){
+            $_SESSION['error_profile'] = ['profile' => 'Something bad happend, please contact to support.'];
          }
-         include 'views/users/profile.php';
+      }else{
+         $_SESSION['error_profile'] = ['profile' => 'Please, specify user ID.'];
       }
+      include 'views/users/profile.php';
    }
    /* Edit user */
    public function edit(){
@@ -136,7 +137,7 @@ class UserController{
       if(!$validate_user['error'] && $id_user){
          $user_edit = UserModel::getUser('id',$id_user);
          
-         if(!empty($user_edit[0]) && !isset($user_edit['error'])){
+         if($user_edit && !empty($user_edit) && !isset($user_edit['error'])){
             $user = new UserModel();
             $user->setUserName($name);
             $user->setEmail($email);
@@ -162,6 +163,7 @@ class UserController{
                $password_hash = $user_edit[0]->password;
                /** if user decided change password */
                if(isset($_POST['change_password']) && $_POST['change_password'] == 'yes'){
+                  /** if user is not admin we ask for the last password */
                   $verify_password = true;
                   if($_SESSION['user_logged']->capabilities != 'admin'){
                      $verify_password = password_verify($lastPassword,$user_edit[0]->password);
@@ -185,10 +187,8 @@ class UserController{
                   $response = $user->updateUser($id_user);
                   if($response){
                      $_SESSION['edit_success'] = ['error' => false, 'message' => '¡The user has been updated succesfully!'];
-
                      if($_SESSION['user_logged']->id == intval($id_user)){
                         $update_current = UserModel::getUser('id',$id_user);
-                        
                         $_SESSION['user_logged'] = $update_current[0];
                      }
                   }

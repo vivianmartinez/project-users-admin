@@ -14,17 +14,17 @@
     ?>
             </div>
         </div>
-<?php elseif(!isset($profile_user) || empty($profile_user)): ?>
-    <div class="container-fluid" style="height: 100vh;">
-        <div class=" text-danger container col-md-4 py-5">
-            <div class="mb-4"><strong>Error: The user doesn't exist... Make sure the Id is correct.</strong></div>
-            <a href="<?=url_base?>user/profile&id=<?=$_SESSION['user_logged']->id?>" class="btn btn-warning">Back</a>
-        </div>
-    </div>
 <?php elseif($_SESSION['user_logged']->id != $_GET['id'] && !$is_admin ): ?>
     <div class="container-fluid" style="height: 100vh;">
         <div class="d-block text-danger container col-md-4 py-5">
             <div class="mb-4"><strong>Error: This action is not allowed. You only can edit your user profile.</strong></div>
+            <a href="<?=url_base?>user/profile&id=<?=$_SESSION['user_logged']->id?>" class="btn btn-warning">Back</a>
+        </div>
+    </div>
+<?php elseif(!isset($profile_user) || empty($profile_user)): ?>
+    <div class="container-fluid" style="height: 100vh;">
+        <div class=" text-danger container col-md-4 py-5">
+            <div class="mb-4"><strong>Error: The user doesn't exist... Make sure the Id is correct.</strong></div>
             <a href="<?=url_base?>user/profile&id=<?=$_SESSION['user_logged']->id?>" class="btn btn-warning">Back</a>
         </div>
     </div>

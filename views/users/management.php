@@ -71,15 +71,16 @@
       <?php endforeach; ?>
     </tbody>
   </table>
-  <div class="d-flex align-items-center justify-content-end">
+  <div class="d-flex align-items-center justify-content-md-end col-sm-12">
     <div class="me-3 fw-bold">Total Records: <?=$records?></div>
     <div class="me-3 fw-bold">Total Pages: <?=$pages?></div>
     <div class="me-3 fw-bold">Page: <?=isset($_GET['page']) ? $_GET['page'] : 1?></div>
-    
-    <a id="preview" href="<?=url_base?>user/<?=$action?>&page=1" class="btn btn-secondary me-2" data-bs-toggle="tooltip" title="first"><</a>
-    <a id="preview" href="<?=url_base?>user/<?=$action?>&page=<?=$preview?>" class="btn btn-secondary me-2" data-bs-toggle="tooltip" title="preview"><<</a>
-    <a id="next" href="<?=url_base?>user/<?=$action?>&page=<?=$next?>" class="btn btn-secondary me-2" data-bs-toggle="tooltip" title="next">>></a>
-    <a id="next" href="<?=url_base?>user/<?=$action?>&page=<?=$pages?>" class="btn btn-secondary me-2" data-bs-toggle="tooltip" title="last">></a>
+    <div>
+      <a id="preview" href="<?=url_base?>user/<?=$action?>&page=1" class="btn btn-secondary me-2" data-bs-toggle="tooltip" title="first"><</a>
+      <a id="preview" href="<?=url_base?>user/<?=$action?>&page=<?=$preview?>" class="btn btn-secondary me-2" data-bs-toggle="tooltip" title="preview"><<</a>
+      <a id="next" href="<?=url_base?>user/<?=$action?>&page=<?=$next?>" class="btn btn-secondary me-2" data-bs-toggle="tooltip" title="next">>></a>
+      <a id="next" href="<?=url_base?>user/<?=$action?>&page=<?=$pages?>" class="btn btn-secondary me-2" data-bs-toggle="tooltip" title="last">></a>
+    </div>
   </div>
 <?php endif; ?>
 </div>
