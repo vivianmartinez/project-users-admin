@@ -34,7 +34,7 @@
             <form id="form-profile" class="mt-5 mb-4" action="<?=url_base?>user/edit&id=<?=$profile_user[0]->id?>" method="POST" enctype="multipart/form-data">
                 <div class="d-md-flex">
                     <div class="d-block text-center me-4">
-                        <img src="<?=url_base?>storage/images/<?=$profile_user[0]->image?>" class="rounded-circle mb-2 preview" alt="avatar" width="180px">
+                        <img src="<?=url_base?>storage/images/<?=$profile_user[0]->image != '' ? $profile_user[0]->image : 'avatar.png' ?>" class="rounded-circle mb-2 preview" alt="avatar" width="180px">
                         <div class="small text-muted">JPG, JPEG or PNG</div>
                         <div class="small text-muted">No longer than 1MG</div>
                         <label for="profile_image" class="form-label align-bottom"><span class="btn btn-light mt-3"><i class="fa-solid fa-upload"></i> Upload image</span></label>

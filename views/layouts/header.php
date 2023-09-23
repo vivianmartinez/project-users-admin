@@ -42,7 +42,7 @@
             </form>
             <div class="dropdown text-end">
                 <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="<?=url_base?>storage/images/<?=$_SESSION['user_logged']->image?>" alt="mdo" width="40" height="40" class="rounded-circle">
+                    <img src="<?=url_base?>storage/images/<?=$_SESSION['user_logged']->image != '' ? $_SESSION['user_logged']->image : 'avatar.png' ?>" alt="<?=$_SESSION['user_logged']->image != '' ? $_SESSION['user_logged']->image : 'avatar.png' ?>" width="40" height="40" class="rounded-circle">
                 </a>
                 <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
                     <li><div class="dropdown-item fw-bold"><?=$_SESSION['user_logged']->user_name?></div></li>
