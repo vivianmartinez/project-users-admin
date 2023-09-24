@@ -24,9 +24,9 @@ This is a simple CRUD project made implementing MVC pattern. This allows you:
                       public function __construct()
                       {
                           $this->infoDB = array(
-                              "host"      => "name_host",
+                              "host"      => "your_host_name",
                               "dbname"    => "admin_users", // or the name you choose
-                              "dbuser"    => "name_user",
+                              "dbuser"    => "your_username",
                               "dbpassword"=> "your_password"
                           );
                       }
