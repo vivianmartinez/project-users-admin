@@ -15,8 +15,8 @@ This is a simple CRUD project made implementing MVC pattern. This allows you:
 ### Specifications
 
 <ul>
-<li>Use the code found in project-users-admin/design-database-sql/sql-database.sql to create a simple database and an user with admin capabilities.</li>
-<li>Create a php file in models/database directory and call it info-dbase.php, this will contain a class with its constructor, then define there the database connection information. Like this:
+<li>Use the code found in <strong>project-users-admin/design-database-sql/sql-database.sql</strong> to create a simple database and an user with admin capabilities (password: "administrador").</li>
+<li>Create a php file in <strong>models/database</strong> directory and call it <strong>info-dbase.php</strong>, this will contain a class with its constructor, then define there the database connection information. Like this:
   
                 <?php
                   class InfoDbase{
