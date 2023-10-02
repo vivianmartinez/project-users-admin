@@ -63,7 +63,7 @@ class UserController{
                   if($response){
                      $_SESSION['register_success'] = ['error' => false, 'message' =>'¡The user has been created succesfully!'];
                      $search_user = UserModel::getUser('email',$email);
-                     if($search_user && !empty($search_user) && !isset($search_user['error'])){
+                     if($search_user && is_array($search_user) && !empty($search_user[0]) && !isset($search_user['error'])){
                         $_SESSION['user_logged'] = $search_user[0];
                         RedirectRoute::redirect('user/management');
                      }else{
@@ -111,7 +111,7 @@ class UserController{
    public function profile(){
       if(isset($_GET['id'])){
          $profile_user = UserModel::getUser('id',$_GET['id']);
-         if($profile_user && is_array($profile_user)){
+         if($profile_user && is_array($profile_user) && !empty($profile_user[0])){
             if(!file_exists('storage/images/'.$profile_user[0]->image)){
                $profile_user[0]->image = 'avatar.png';
             }
@@ -134,10 +134,18 @@ class UserController{
       $picture       = isset($_FILES['edit_image']) ? $_FILES['edit_image'] : false;
       /**validate name - email */
       $validate_user = ValidateUser::validateRequiredFields($name,$email);
+      
       if(!$validate_user['error'] && $id_user){
-         $user_edit = UserModel::getUser('id',$id_user);
          
-         if($user_edit && !empty($user_edit) && !isset($user_edit['error'])){
+         $exists_email = UserModel::getUser('email',$email);  
+         if($exists_email && is_array($exists_email) && !empty($exists_email[0]) && $exists_email[0]->id != $id_user){
+            if(!isset($exists_email['error'])){
+               $_SESSION['edit_error']= ['Email'=>'The email already exists.'];
+            }
+         }
+
+         $user_edit = UserModel::getUser('id',$id_user);
+         if($user_edit && !empty($user_edit) && !isset($user_edit['error']) && !isset($_SESSION['edit_error'])){
             $user = new UserModel();
             $user->setUserName($name);
             $user->setEmail($email);
@@ -194,7 +202,7 @@ class UserController{
                   }
                }
             }
-         }else{
+         }elseif(!isset($_SESSION['edit_error'])){
             $_SESSION['edit_error'] = ['edit'=>'Something bad happend. please contact to support.'];
          }
       }else{

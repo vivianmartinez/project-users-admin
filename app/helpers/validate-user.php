@@ -8,16 +8,14 @@ class ValidateUser{
         if($name !== null){
             if(!$name){
                 $error['name'] = 'the name is required';
-            }
-            if(!preg_match('/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/',$name) ){
+            }elseif(!preg_match('/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/',$name) ){
                 $error['name'] = 'the name can\'t contain invalid characters.';
             }
         }
         if($email !== null){
             if(!$email){
                 $error['email'] = 'the email is required';
-            }
-            if(!$email || !filter_var($email,FILTER_VALIDATE_EMAIL) ){
+            }elseif(!filter_var($email,FILTER_VALIDATE_EMAIL) || !preg_match('/^([\w]+([\.-]?[\w])*)[@]{1}([\w]+([\.-]?[\w])*)(\.\w{2,3})$/',$email) ){
                 $error['email'] = 'the email must have a valid format.';
             }
         }

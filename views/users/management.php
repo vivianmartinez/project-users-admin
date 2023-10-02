@@ -16,7 +16,7 @@
   if($loggedIn):
     $is_admin = CheckCapabilities::isAdmin();
 ?>
-<div class="container mb-5 py-5 mt-5 h-auto content">
+<div class="container mb-5 h-auto content">
   <?php if($registered): ?>
     <div class="alert alert-success"><?=$message?></div>
   <?php endif; ?>
